@@ -87,9 +87,13 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/login", "/join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                        .logout(logout -> logout
+                                .logoutSuccessUrl("/login")
+                                        .invalidateHttpSession(true));
+
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 

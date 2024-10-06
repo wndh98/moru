@@ -21,6 +21,6 @@ public class JoinController {
 
         joinService.joinProcess(userInfoDto);
 
-        return "ok";
+        return "redirect:/login";
     }
 }

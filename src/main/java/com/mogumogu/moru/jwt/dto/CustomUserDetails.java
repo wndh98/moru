@@ -4,7 +4,6 @@ import com.mogumogu.moru.jwt.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,6 +32,10 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
 
         return userEntity.getUiId();
+    }
+
+    public String getUiNickName(){
+        return userEntity.getUiNickName();
     }
 
     @Override
