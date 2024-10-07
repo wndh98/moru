@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String uiId) throws UsernameNotFoundException {
 
         //DB에서 조회
-        UserEntity userData = userRepository.findById(uiId);
+        UserEntity userData = userRepository.findByUiId(uiId);
 
         if (userData != null) {
 

@@ -2,15 +2,15 @@ package com.mogumogu.moru.user.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class UserInfoDto {
     private String uiId;
     private String uiNickName;
-    private String uiDel;
+    private char uiDel;
     private int uiPoint;
-    private Date uiRegist;
+    private LocalDateTime uiRegist;
     private String uiPassword;
     private String uiEmail;
     private int uiHeight;

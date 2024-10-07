@@ -18,10 +18,10 @@ public class JoinService {
 
     public void joinProcess(UserInfoDto userInfoDto) {
 
-        String userId = userInfoDto.getUiId();
+        String uiId = userInfoDto.getUiId();
         String userPassword = userInfoDto.getUiPassword();
 
-        Boolean isExist = userRepository.existsById(userId);
+        Boolean isExist = userRepository.existsByUiId(uiId);
 
         if (isExist) {
 
@@ -29,7 +29,7 @@ public class JoinService {
         }
         UserEntity data = new UserEntity();
 
-        data.setUiId(userId);
+        data.setUiId(uiId);
         data.setUiPassword(bCryptPasswordEncoder.encode(userPassword));
 
         userRepository.save(data);

@@ -8,14 +8,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Getter
-public class UserEntity {
-
+@Setter
+public class RefreshEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String uiId;
-    private String uiPassword;
+    private String uiId; //id
     private String uiNickname;
-
+    private String urtToken; //refreshToken
+    private String expiration;
 }

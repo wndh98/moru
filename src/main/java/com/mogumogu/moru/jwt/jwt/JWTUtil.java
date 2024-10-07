@@ -21,18 +21,31 @@ public class JWTUtil {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiId", String.class);
     }
+
+    public String getUiNickname(String token) {
+
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiNickname", String.class);
+    }
+
+
+    public String getCategory(String token) {
+
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("category", String.class);
+    }
+
     public Boolean isExpired(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String uiId, String uiNickName, Long expiredMs) {
+    public String createJwt(String category,String uiId, String uiNickname, Long expiredMs) {
 
         return Jwts.builder()
+                .claim("category", category)
                 .claim("uiId", uiId)
+                .claim("uiNickname", uiNickname)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
-                .subject(uiNickName)
                 .signWith(secretKey)
                 .compact();
     }

@@ -12,7 +12,7 @@ public class UserInfoDto {
     @Getter
     @Setter
     private String uiId;
-    private String uiNickName;
+    private String uiNickname;
     private String uiDel;
     private int uiPoint;
     private Date uiRegist;

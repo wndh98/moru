@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-    Boolean existsById(String uiId);
+    Boolean existsByUiId(String uiId);
 
-    UserEntity findById(String uiId);
+    UserEntity findByUiId(String uiId);
 }

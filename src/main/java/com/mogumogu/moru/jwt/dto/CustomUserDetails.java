@@ -34,8 +34,8 @@ public class CustomUserDetails implements UserDetails {
         return userEntity.getUiId();
     }
 
-    public String getUiNickName(){
-        return userEntity.getUiNickName();
+    public String getUiNickname(){
+        return userEntity.getUiNickname();
     }
 
     @Override
