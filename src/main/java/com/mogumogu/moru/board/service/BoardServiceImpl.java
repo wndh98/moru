@@ -6,7 +6,12 @@ import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.board.repository.BoardBaseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -14,12 +19,6 @@ public class BoardServiceImpl implements BoardService {
     BoardBaseRepository boardBaseRepository;
 
 
-    /**
-     * BoardBaseDTO 를 기준으로 게시판 INSERT
-     * @param boardBaseDTO 게시판 dto
-     * @return 1:성공 0:실패
-     * @author 김주오
-     */
     @Override
     @Transactional
     public int boardAdd(BoardBaseDTO boardBaseDTO) {
@@ -35,6 +34,24 @@ public class BoardServiceImpl implements BoardService {
             result = 1;
         }
         return result;
+    }
+
+    @Override
+    public List<BoardBaseDTO> boardList(String boType, Pageable pageable, String searchType, String searchValue) {
+        if(searchType==null)searchType="";
+        Page<BoardBase> pageList;
+
+        if (searchType.equals("title")) {
+            pageList = boardBaseRepository.findByBoTypeAndBoTitleContaining(boType, searchValue, pageable);
+        } else if (searchType.equals("content")) {
+            pageList = boardBaseRepository.findByBoTypeAndBoContentContaining(boType, searchValue, pageable);
+        } else if (searchType.equals("both")) {
+            pageList = boardBaseRepository.findByBoTypeAndBoTitleOrBoContentContaining(boType, searchValue, searchValue, pageable);
+        } else {
+            pageList = boardBaseRepository.findByBoType(boType, pageable);
+        }
+
+        return pageList.stream().map(BoardBaseDTO::toDTO).collect(Collectors.toList());
     }
 }
 
