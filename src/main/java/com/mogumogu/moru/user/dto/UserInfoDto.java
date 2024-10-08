@@ -1,13 +1,15 @@
 package com.mogumogu.moru.user.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class UserInfoDto {
     private String uiId;
-    private String uiNickName;
+    private String uiNickname;
     private char uiDel;
     private int uiPoint;
     private LocalDateTime uiRegist;
@@ -16,4 +18,6 @@ public class UserInfoDto {
     private int uiHeight;
     private int uiAge;
     private String uiGender;
+    private String role;
+
 }

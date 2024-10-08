@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class UserInfoEntity {
 
     @Id
     @Column(name="UI_ID")
@@ -30,12 +30,13 @@ public class UserInfo {
     private Integer uiHeight;
     private Integer uiAge;
     private String uiGender;
+    private String role;
 
     //DTO -> Entity
-    public static UserInfo toEntity(UserInfoDto userInfoDto){
-        return UserInfo.builder()
+    public static UserInfoEntity toEntity(UserInfoDto userInfoDto){
+        return UserInfoEntity.builder()
                 .uiId(userInfoDto.getUiId())
-                .uiNickname(userInfoDto.getUiNickName())
+                .uiNickname(userInfoDto.getUiNickname())
                 .uiDel(userInfoDto.getUiDel())
                 .uiPoint(userInfoDto.getUiPoint())
                 .uiRegist(userInfoDto.getUiRegist())
