@@ -1,8 +1,11 @@
 package com.mogumogu.moru.jwt.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.entity.RefreshEntity;
 import com.mogumogu.moru.jwt.repository.RefreshRepository;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StreamUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -33,9 +38,20 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        //클라이언트 요청에서 uiId, uiPassword 추출
-        String uiId = obtainUsername(request);
-        String uiPassword = obtainPassword(request);
+        UserInfoDto userInfoDto = new UserInfoDto();
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            ServletInputStream inputStream = request.getInputStream();
+            String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            userInfoDto = objectMapper.readValue(messageBody, UserInfoDto.class);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        String uiId = userInfoDto.getUiId();
+        String uiPassword = userInfoDto.getUiPassword();
 
         //스프링 시큐리티에서 uiId password를 검증하기 위해서는 token에 담아야 함
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(uiId, uiPassword, null);
@@ -55,10 +71,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
+        String role = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", uiId, uiNickname, 600000L);
-        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, 86400000L);
+        String access = jwtUtil.createJwt("access", uiId, role, uiNickname, 600000L);
+        String urtToken = jwtUtil.createJwt("urtToken", uiId, role, uiNickname, 86400000L);
 
         //Refresh 토큰 저장
         addRefreshEntity(uiId, urtToken, 86400000L);
@@ -90,7 +107,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private Cookie createCookie(String key, String value) {
 
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24*60*60);
+        cookie.setMaxAge(24 * 60 * 60);
         //cookie.setSecure(true);
         //cookie.setPath("/");
         cookie.setHttpOnly(true);

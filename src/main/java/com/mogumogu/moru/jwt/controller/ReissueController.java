@@ -27,8 +27,9 @@ public class ReissueController {
         this.refreshRepository = refreshRepository;
     }
 
-    @PostMapping("reissue")
+    @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+
         //get urtToken token
         String urtToken = null;
         Cookie[] cookies = request.getCookies();
@@ -43,7 +44,7 @@ public class ReissueController {
         if (urtToken == null) {
 
             //response status code
-            return new ResponseEntity<>("urtToken token null", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("urtToken null", HttpStatus.BAD_REQUEST);
         }
 
         //expired check
@@ -52,16 +53,16 @@ public class ReissueController {
         } catch (ExpiredJwtException e) {
 
             //response status code
-            return new ResponseEntity<>("urtToken token expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("urtToken expired", HttpStatus.BAD_REQUEST);
         }
 
-        // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
+        // 토큰이 urtToken인지 확인 (발급시 페이로드에 명시)
         String category = jwtUtil.getCategory(urtToken);
 
         if (!category.equals("urtToken")) {
 
             //response status code
-            return new ResponseEntity<>("invalid urtToken token", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("invalid urtToken", HttpStatus.BAD_REQUEST);
         }
 
         //DB에 저장되어 있는지 확인
@@ -69,17 +70,18 @@ public class ReissueController {
         if (!isExist) {
 
             //response body
-            return new ResponseEntity<>("invalid urtToken token", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("invalid urtToken", HttpStatus.BAD_REQUEST);
         }
 
-        String uiId = jwtUtil.getUsername(urtToken);
+        String uiId = jwtUtil.getUiId(urtToken);
+        String role = jwtUtil.getRole(urtToken);
         String uiNickname = jwtUtil.getUiNickname(urtToken);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", uiId, uiNickname, 600000L);
-        String newUrtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", uiId, role, uiNickname, 600000L);
+        String newUrtToken = jwtUtil.createJwt("urtToken", uiId, role, uiNickname, 86400000L);
 
-        //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
+        //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 urtToken 토큰 저장
         refreshRepository.deleteByUrtToken(urtToken);
         addRefreshEntity(uiId, newUrtToken, 86400000L);
 
