@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 
-public interface BoardBaseRepository<T extends BoardBase,ID extends Serializable> extends JpaRepository<T,ID> {
+public interface BoardBaseRepository extends JpaRepository<BoardBase,Integer> {
 
 }
