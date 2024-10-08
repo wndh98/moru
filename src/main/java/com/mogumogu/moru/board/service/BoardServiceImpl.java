@@ -27,10 +27,8 @@ public class BoardServiceImpl implements BoardService {
         boardBaseDTO = BoardBaseDTO.builder().userInfoDTO(UserInfoDTO.builder().uiId("test").build()).boTitle("title").boContent("content").boType("free").boWriter("writer").build();
         int result = 0;
         BoardBase boardBase = boardBaseRepository.save(BoardBase.toEntity(boardBaseDTO));
-        if (boardBaseDTO.getBoReply() == 0) {
+        if (boardBase.getBoReply() == 0) {
             boardBase.setBoReply(boardBase.getBoNum());
-        } else {
-            boardBase.setBoReplyDept(boardBase.getBoReplyDept() + 1);
         }
 
         if (boardBase.getBoNum() != null) {
