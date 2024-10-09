@@ -2,7 +2,7 @@ package com.mogumogu.moru.jwt.service;
 
 import com.mogumogu.moru.jwt.dto.CustomUserDetails;
 import com.mogumogu.moru.jwt.repository.UserRepository;
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

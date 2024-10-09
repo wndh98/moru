@@ -1,7 +1,7 @@
 package com.mogumogu.moru.jwt.jwt;
 
 import com.mogumogu.moru.jwt.dto.CustomUserDetails;
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

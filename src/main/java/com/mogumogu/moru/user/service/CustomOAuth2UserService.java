@@ -2,8 +2,8 @@ package com.mogumogu.moru.user.service;
 
 import com.mogumogu.moru.user.dto.KakaoResponse;
 import com.mogumogu.moru.user.dto.OAuth2Response;
-import com.mogumogu.moru.user.dto.UserInfoDto;
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.user.repository.UserInfoRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

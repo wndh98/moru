@@ -1,6 +1,6 @@
 package com.mogumogu.moru.user.service;
 
-import com.mogumogu.moru.user.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

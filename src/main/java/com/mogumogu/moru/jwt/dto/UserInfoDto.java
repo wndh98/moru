@@ -1,12 +1,10 @@
-package com.mogumogu.moru.user.dto;
+package com.mogumogu.moru.jwt.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 public class UserInfoDto {
     private String uiId;
     private String uiNickname;

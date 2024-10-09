@@ -2,10 +2,9 @@ package com.mogumogu.moru.jwt.jwt;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mogumogu.moru.jwt.dto.JWTUserInfoDto;
 import com.mogumogu.moru.jwt.entity.RefreshEntity;
 import com.mogumogu.moru.jwt.repository.RefreshRepository;
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.Cookie;
@@ -42,13 +41,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        UserInfoEntity userEntity = new UserInfoEntity();
-
+        UserInfoDto userDto = new UserInfoDto();
+        System.out.println(userDto);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ServletInputStream inputStream = request.getInputStream();
             String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-            userEntity = objectMapper.readValue(messageBody, UserInfoEntity.class);
+            userDto = objectMapper.readValue(messageBody, UserInfoDto.class);
 
         } catch (JsonParseException e) {
             // JSON 파싱 오류 처리
@@ -57,14 +56,19 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             throw new AuthenticationServiceException("IO error during authentication: " + e.getMessage());
         }
 
-        String uiId = userEntity.getUiId();
-        String uiPassword = userEntity.getUiPassword();
+        String uiId = userDto.getUiId();
+        String uiPassword = userDto.getUiPassword();
+
+        System.out.println(uiId);
 
         //스프링 시큐리티에서 uiId password를 검증하기 위해서는 token에 담아야 함
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(uiId, uiPassword, null);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(uiId,uiPassword);
+
 
         //token에 담은 검증을 위한 AuthenticationManager로 전달
         return authenticationManager.authenticate(authToken);
+
+
     }
 
 
@@ -82,10 +86,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //토큰 생성
         String access = jwtUtil.createJwt("access", uiId, uiRole, uiNickname, 600000L);
-        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiRole, uiNickname, 86400000L);
+        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiRole, uiNickname,86400000L);
 
         //Refresh 토큰 저장
-        addRefreshEntity(uiId, urtToken, 86400000L);
+        addRefreshEntity(uiId, urtToken,86400000L);
 
         //응답 설정
         response.setHeader("access", access);
@@ -101,7 +105,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         System.out.println("fail");
     }
 
-    private void addRefreshEntity(String uiId, String urtToken, Long expiredMs) {
+    private void addRefreshEntity(String uiId, String urtToken,Long expiredMs) {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 

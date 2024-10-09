@@ -1,8 +1,8 @@
 package com.mogumogu.moru.jwt.service;
 
-import com.mogumogu.moru.jwt.dto.JWTUserInfoDto;
 import com.mogumogu.moru.jwt.repository.UserRepository;
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ public class JoinService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void joinProcess(UserInfoEntity UserEntity) {
+    public void joinProcess(UserInfoDto UserDto) {
 
-        String uiId = UserEntity.getUiId();
-        String uiPassword = UserEntity.getUiPassword();
-        String uiNickname = UserEntity.getUiNickname();
-        String uiEmail = UserEntity.getUiEmail();
+        String uiId = UserDto.getUiId();
+        String uiPassword = UserDto.getUiPassword();
+        String uiNickname = UserDto.getUiNickname();
+        String uiEmail = UserDto.getUiEmail();
 
 
         Boolean isExist = userRepository.existsByUiId(uiId);

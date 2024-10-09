@@ -5,10 +5,10 @@ import com.mogumogu.moru.jwt.jwt.JWTFilter;
 import com.mogumogu.moru.jwt.jwt.JWTUtil;
 import com.mogumogu.moru.jwt.jwt.LoginFilter;
 import com.mogumogu.moru.jwt.repository.RefreshRepository;
-//import com.mogumogu.moru.user.oauth2.CustomSuccessHandler;
-//import com.mogumogu.moru.user.service.CustomOAuth2UserService;
-//import com.mogumogu.moru.user.userjwt.UserJWTFilter;
-//import com.mogumogu.moru.user.userjwt.UserJWTUtil;
+import com.mogumogu.moru.user.oauth2.CustomSuccessHandler;
+import com.mogumogu.moru.user.service.CustomOAuth2UserService;
+import com.mogumogu.moru.user.userjwt.UserJWTFilter;
+import com.mogumogu.moru.user.userjwt.UserJWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,19 +34,19 @@ public class JWTSecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
-//    private final CustomOAuth2UserService customOAuth2UserService;
-//    private final CustomSuccessHandler customSuccessHandler;
-//    private final UserJWTUtil userJwtUtil;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final UserJWTUtil userJwtUtil;
 
-//    , CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, UserJWTUtil userJwtUtil
-    public JWTSecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, RefreshRepository refreshRepository) {
+
+    public JWTSecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, RefreshRepository refreshRepository, CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, UserJWTUtil userJwtUtil) {
 
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
         this.refreshRepository = refreshRepository;
-//        this.customOAuth2UserService = customOAuth2UserService;
-//        this.customSuccessHandler = customSuccessHandler;
-//        this.userJwtUtil = userJwtUtil;
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.customSuccessHandler = customSuccessHandler;
+        this.userJwtUtil = userJwtUtil;
     }
 
     //AuthenticationManager Bean 등록
@@ -98,16 +98,16 @@ public class JWTSecurityConfig {
                 .httpBasic((auth) -> auth.disable());
 
         //JWTFilter 추가
-//        http
-//                .addFilterBefore(new UserJWTFilter(userJwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http
+                .addFilterBefore(new UserJWTFilter(userJwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         //oauth2
-//        http
-//                .oauth2Login((oauth2) -> oauth2
-//                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-//                                .userService(customOAuth2UserService))
-//                        .successHandler(customSuccessHandler)
-//                );
+        http
+                .oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService))
+                        .successHandler(customSuccessHandler)
+                );
 
         //경로별 인가 작업
         http

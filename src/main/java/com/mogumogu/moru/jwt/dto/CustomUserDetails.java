@@ -1,6 +1,7 @@
 package com.mogumogu.moru.jwt.dto;
 
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

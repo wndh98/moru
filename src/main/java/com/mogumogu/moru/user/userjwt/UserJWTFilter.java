@@ -1,6 +1,6 @@
 package com.mogumogu.moru.user.userjwt;
 
-import com.mogumogu.moru.user.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.user.service.CustomOAuth2User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,6 +28,10 @@ public class UserJWTFilter extends OncePerRequestFilter {
         //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
         String authorization = null;
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         for (Cookie cookie : cookies) {
 
             System.out.println(cookie.getName());
@@ -62,12 +66,12 @@ public class UserJWTFilter extends OncePerRequestFilter {
 
         //토큰에서 uiNickname, role 획득
         String uiNickname = userJwtUtil.getUsername(token);
-        String role = userJwtUtil.getRole(token);
+        String uiRole = userJwtUtil.getRole(token);
 
         //userDTO를 생성하여 값 set
         UserInfoDto userInfoDTO = new UserInfoDto();
         userInfoDTO.setUiNickname(uiNickname);
-        userInfoDTO.setUiRole(role);
+        userInfoDTO.setUiRole(uiRole);
 
         //UserDetails에 회원 정보 객체 담기
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userInfoDTO);

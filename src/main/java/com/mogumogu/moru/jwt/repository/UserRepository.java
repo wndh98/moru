@@ -1,6 +1,6 @@
 package com.mogumogu.moru.jwt.repository;
 
-import com.mogumogu.moru.user.entity.UserInfoEntity;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

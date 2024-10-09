@@ -1,6 +1,6 @@
-package com.mogumogu.moru.user.entity;
+package com.mogumogu.moru.jwt.entity;
 
-import com.mogumogu.moru.user.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
