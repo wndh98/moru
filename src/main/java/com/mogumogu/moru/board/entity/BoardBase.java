@@ -28,7 +28,8 @@ public class BoardBase {
     private String boContent;
     private String boWriter;
     private Integer boReply;
-    private Integer boReplyDept;
+    @Builder.Default
+    private Integer boReplyDept=0;
     @Builder.Default
     private LocalDateTime boRegist = LocalDateTime.now();
     @Builder.Default

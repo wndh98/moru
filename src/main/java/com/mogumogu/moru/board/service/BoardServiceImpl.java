@@ -3,6 +3,7 @@ package com.mogumogu.moru.board.service;
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
 import com.mogumogu.moru.board.dto.UserInfoDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
+import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.board.repository.BoardBaseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+    char BOARD_NOT_DEL = 'N';
+    char BOARD_DEL = 'Y';
     @Autowired
     BoardBaseRepository boardBaseRepository;
 
@@ -38,20 +41,51 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardBaseDTO> boardList(String boType, Pageable pageable, String searchType, String searchValue) {
-        if(searchType==null)searchType="";
+        if (searchType == null) searchType = "";
         Page<BoardBase> pageList;
 
         if (searchType.equals("title")) {
-            pageList = boardBaseRepository.findByBoTypeAndBoTitleContaining(boType, searchValue, pageable);
+            pageList = boardBaseRepository.findByBoDelAndBoTypeAndBoTitleContaining(BOARD_NOT_DEL, boType, searchValue, pageable);
         } else if (searchType.equals("content")) {
-            pageList = boardBaseRepository.findByBoTypeAndBoContentContaining(boType, searchValue, pageable);
+            pageList = boardBaseRepository.findByBoDelAndBoTypeAndBoContentContaining(BOARD_NOT_DEL, boType, searchValue, pageable);
         } else if (searchType.equals("both")) {
-            pageList = boardBaseRepository.findByBoTypeAndBoTitleOrBoContentContaining(boType, searchValue, searchValue, pageable);
+            pageList = boardBaseRepository.findByBoDelAndBoTypeAndBoTitleOrBoContentContaining(BOARD_NOT_DEL, boType, searchValue, searchValue, pageable);
         } else {
-            pageList = boardBaseRepository.findByBoType(boType, pageable);
+            pageList = boardBaseRepository.findByBoDelAndBoType(BOARD_NOT_DEL, boType, pageable);
         }
 
         return pageList.stream().map(BoardBaseDTO::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public BoardBaseDTO boardDetails(int boNum) throws BoardNotFoundException {
+        return BoardBaseDTO.toDTO(boardBaseRepository.findByBoNumAndBoDel(boNum,BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new));
+    }
+
+    @Override
+    public int boardModify(BoardBaseDTO boardBaseDTO, int boNum) throws BoardNotFoundException {
+        // TODO : 본인 체크
+        int result = 1;
+        // 게시판 번호 불일치
+        if (boardBaseDTO.getBoNum() != boNum) {
+            result = 0;
+            return result;
+        }
+        BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boardBaseDTO.getBoNum(),BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
+        boardBase.setBoContent(boardBaseDTO.getBoContent());
+        boardBase.setBoTitle(boardBaseDTO.getBoTitle());
+        boardBaseRepository.save(boardBase);
+        return result;
+    }
+
+    @Override
+    public int boardRemove(int boNum) throws BoardNotFoundException {
+        // TODO : 본인 체크
+        int result = 1;
+        BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boNum,BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
+        boardBase.setBoDel('Y');
+        boardBaseRepository.save(boardBase);
+        return result;
     }
 }
 

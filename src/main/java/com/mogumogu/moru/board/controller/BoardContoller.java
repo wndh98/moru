@@ -1,6 +1,8 @@
 package com.mogumogu.moru.board.controller;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
+import com.mogumogu.moru.board.entity.BoardBase;
+import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ public class BoardContoller {
 
     /**
      * BoardBaseDTO 를 기준으로 게시판 INSERT
+     *
      * @param boardBaseDTO 게시판 dto
      * @return 1:성공 0:실패
      * @author 김주오
@@ -33,14 +36,15 @@ public class BoardContoller {
 
     /**
      * BoardBaseDTO 를 기준으로 게시판 LIST
-     * @param boType 게시판 타입
-     * @param searchType 검색 타입
+     *
+     * @param boType      게시판 타입
+     * @param searchType  검색 타입
      * @param searchValue 검색어
-     * @param pageable 페이징 (page:현재페이지,size:페이지 갯수)
+     * @param pageable    페이징 (page:현재페이지,size:페이지 갯수)
      * @return List<BoardBaseDTO>
      * @author 김주오
      */
-    @GetMapping("/board/{boType}")
+    @GetMapping("/board/list/{boType}")
     public List<BoardBaseDTO> listBoard(
             @PathVariable("boType") String boType,
             @RequestParam(name = "searchType", required = false) String searchType,
@@ -50,5 +54,42 @@ public class BoardContoller {
         List<BoardBaseDTO> list = new ArrayList<>();
         list = boardService.boardList(boType, pageable, searchType, searchValue);
         return list;
+    }
+    /**
+     * BoardBaseDTO 를 기준으로 게시판 LIST
+     *
+     * @param boNum 게시판 번호
+     * @return BoardBaseDTO
+     * @author 김주오
+     */
+    @GetMapping("/board/{boNum}")
+    public BoardBaseDTO detailsBoard(@PathVariable("boNum") int boNum) {
+        BoardBaseDTO boardBaseDTO = null;
+        try {
+            boardBaseDTO = boardService.boardDetails(boNum);
+        } catch (BoardNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return boardBaseDTO;
+    }
+    @PutMapping("/board/{boNum}")
+    public int modifyBoard(@RequestBody BoardBaseDTO boardBaseDTO,@PathVariable("boNum") int boNum){
+        int result = 0;
+        try {
+            result = boardService.boardModify(boardBaseDTO,boNum);
+        } catch (BoardNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+    @DeleteMapping("/board/{boNum}")
+    public int removeBoard(@PathVariable("boNum") int boNum){
+        int result = 0;
+        try {
+            result = boardService.boardRemove(boNum);
+        } catch (BoardNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 }
