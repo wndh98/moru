@@ -1,7 +1,7 @@
 package com.mogumogu.moru.jwt.service;
 
 import com.mogumogu.moru.jwt.dto.CustomUserDetails;
-import com.mogumogu.moru.jwt.entity.UserEntity;
+import com.mogumogu.moru.jwt.entity.JWTUserEntity;
 import com.mogumogu.moru.jwt.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String uiId) throws UsernameNotFoundException {
 
         //DB에서 조회
-        UserEntity userData = userRepository.findByUiId(uiId);
+        JWTUserEntity userData = userRepository.findByUiId(uiId);
 
         if (userData != null) {
 

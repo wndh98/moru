@@ -1,11 +1,10 @@
 package com.mogumogu.moru.jwt.dto;
 
 import lombok.Data;
-import java.util.Date;
 
 @Data
 
-public class UserInfoDto {
+public class JWTUserInfoDto {
 
     private String uiId;
     private String uiNickname;

@@ -1,6 +1,6 @@
 package com.mogumogu.moru.user.oauth2;
 
-import com.mogumogu.moru.user.jwt.JWTUtil;
+import com.mogumogu.moru.user.userjwt.UserJWTUtil;
 import com.mogumogu.moru.user.service.CustomOAuth2User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -18,11 +18,11 @@ import java.util.Iterator;
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JWTUtil jwtUtil;
+    private final UserJWTUtil userJwtUtil;
 
-    public CustomSuccessHandler(JWTUtil jwtUtil) {
+    public CustomSuccessHandler(UserJWTUtil userJwtUtil) {
 
-        this.jwtUtil = jwtUtil;
+        this.userJwtUtil = userJwtUtil;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(uiId, role, 60*60*60L);
+        String token = userJwtUtil.createJwt(uiId, role, 60*60*60L);
 
         response.addCookie(createCookie("Authorization", token));
         response.sendRedirect("http://localhost:3000/");

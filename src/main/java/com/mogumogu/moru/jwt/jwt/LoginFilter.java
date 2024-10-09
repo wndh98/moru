@@ -1,7 +1,7 @@
 package com.mogumogu.moru.jwt.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mogumogu.moru.jwt.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.dto.JWTUserInfoDto;
 import com.mogumogu.moru.jwt.entity.RefreshEntity;
 import com.mogumogu.moru.jwt.repository.RefreshRepository;
 import jakarta.servlet.FilterChain;
@@ -38,20 +38,20 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        UserInfoDto userInfoDto = new UserInfoDto();
+        JWTUserInfoDto JWTUserInfoDto = new JWTUserInfoDto();
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ServletInputStream inputStream = request.getInputStream();
             String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-            userInfoDto = objectMapper.readValue(messageBody, UserInfoDto.class);
+            JWTUserInfoDto = objectMapper.readValue(messageBody, JWTUserInfoDto.class);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        String uiId = userInfoDto.getUiId();
-        String uiPassword = userInfoDto.getUiPassword();
+        String uiId = JWTUserInfoDto.getUiId();
+        String uiPassword = JWTUserInfoDto.getUiPassword();
 
         //스프링 시큐리티에서 uiId password를 검증하기 위해서는 token에 담아야 함
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(uiId, uiPassword, null);

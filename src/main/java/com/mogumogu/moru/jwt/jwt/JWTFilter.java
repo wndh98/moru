@@ -1,7 +1,7 @@
 package com.mogumogu.moru.jwt.jwt;
 
 import com.mogumogu.moru.jwt.dto.CustomUserDetails;
-import com.mogumogu.moru.jwt.entity.UserEntity;
+import com.mogumogu.moru.jwt.entity.JWTUserEntity;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -71,11 +71,11 @@ public class JWTFilter extends OncePerRequestFilter {
         String uiNickname = jwtUtil.getUiNickname(accessToken);
 
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUiId(uiId);
-        userEntity.setRole(role);
-        userEntity.setUiNickname(uiNickname);
-        CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
+        JWTUserEntity JWTUserEntity = new JWTUserEntity();
+        JWTUserEntity.setUiId(uiId);
+        JWTUserEntity.setRole(role);
+        JWTUserEntity.setUiNickname(uiNickname);
+        CustomUserDetails customUserDetails = new CustomUserDetails(JWTUserEntity);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);

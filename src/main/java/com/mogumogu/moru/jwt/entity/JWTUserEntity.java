@@ -7,12 +7,10 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Entity
 @Setter
 @Getter
-public class UserEntity {
+public class JWTUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

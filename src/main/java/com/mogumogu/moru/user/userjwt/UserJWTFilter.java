@@ -1,4 +1,4 @@
-package com.mogumogu.moru.user.jwt;
+package com.mogumogu.moru.user.userjwt;
 
 import com.mogumogu.moru.user.dto.UserInfoDto;
 import com.mogumogu.moru.user.service.CustomOAuth2User;
@@ -14,12 +14,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-public class JWTFilter extends OncePerRequestFilter {
+public class UserJWTFilter extends OncePerRequestFilter {
 
-    private final JWTUtil jwtUtil;
+    private final UserJWTUtil userJwtUtil;
 
-    public JWTFilter(JWTUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
+    public UserJWTFilter(UserJWTUtil userJwtUtil) {
+        this.userJwtUtil = userJwtUtil;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String token = authorization;
 
         //토큰 소멸 시간 검증
-        if (jwtUtil.isExpired(token)) {
+        if (userJwtUtil.isExpired(token)) {
 
             System.out.println("token expired");
             filterChain.doFilter(request, response);
@@ -61,8 +61,8 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         //토큰에서 username과 role 획득
-        String uiId = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
+        String uiId = userJwtUtil.getUsername(token);
+        String role = userJwtUtil.getRole(token);
 
         //userDTO를 생성하여 값 set
         UserInfoDto userInfoDTO = new UserInfoDto();
