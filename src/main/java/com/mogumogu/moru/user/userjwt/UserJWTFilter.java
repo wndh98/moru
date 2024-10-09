@@ -60,14 +60,14 @@ public class UserJWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        //토큰에서 username과 role 획득
-        String uiId = userJwtUtil.getUsername(token);
+        //토큰에서 uiNickname, role 획득
+        String uiNickname = userJwtUtil.getUsername(token);
         String role = userJwtUtil.getRole(token);
 
         //userDTO를 생성하여 값 set
         UserInfoDto userInfoDTO = new UserInfoDto();
-        userInfoDTO.setUiId(uiId);
-        userInfoDTO.setRole(role);
+        userInfoDTO.setUiNickname(uiNickname);
+        userInfoDTO.setUiRole(role);
 
         //UserDetails에 회원 정보 객체 담기
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userInfoDTO);

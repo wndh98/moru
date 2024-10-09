@@ -74,7 +74,7 @@ public class ReissueController {
         }
 
         String uiId = jwtUtil.getUiId(urtToken);
-        String role = jwtUtil.getRole(urtToken);
+        String role = jwtUtil.getUiRole(urtToken);
         String uiNickname = jwtUtil.getUiNickname(urtToken);
 
         //make new JWT

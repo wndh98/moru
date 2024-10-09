@@ -18,6 +18,6 @@ public class UserInfoDto {
     private int uiHeight;
     private int uiAge;
     private String uiGender;
-    private String role;
+    private String uiRole;
 
 }

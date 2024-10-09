@@ -1,20 +1,34 @@
 package com.mogumogu.moru.jwt.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Table(name = "USER_REFRESH_TOKEN_TB")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RefreshEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "URT_TOKEN")
+    private String urtToken; //refreshToken
+
     private String uiId; //id
     private String uiNickname;
-    private String urtToken; //refreshToken
+    private String uiEmail;
     private String expiration;
+
+    public static RefreshEntity toEntity(RefreshEntity refreshEntity) {
+        return refreshEntity.builder()
+                .urtToken(refreshEntity.getUrtToken())
+                .uiId(refreshEntity.getUiId())
+                .uiNickname(refreshEntity.getUiNickname())
+                .uiEmail(refreshEntity.getUiEmail())
+                .expiration(refreshEntity.getExpiration())
+                .build();
+    }
 }

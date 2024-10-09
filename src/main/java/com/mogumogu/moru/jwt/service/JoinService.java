@@ -36,7 +36,7 @@ public class JoinService {
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));
         data.setUiNickname(uiNickname);
         data.setUiEmail(uiEmail);
-        data.setRole("ROLE_ADMIN");
+        data.setUiRole("ROLE_ADMIN");
 
         userRepository.save(data);
     }

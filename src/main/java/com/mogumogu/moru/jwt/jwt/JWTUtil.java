@@ -22,7 +22,7 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiId", String.class);
     }
 
-    public String getRole(String token) {
+    public String getUiRole(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }

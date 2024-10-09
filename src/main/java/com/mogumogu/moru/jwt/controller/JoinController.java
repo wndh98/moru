@@ -18,9 +18,9 @@ public class JoinController {
 
     @PostMapping("/users")
     public String JoinProcess(JWTUserInfoDto JWTUserInfoDto) {
-
+    System.out.println(JWTUserInfoDto.getUiNickname());
         joinService.joinProcess(JWTUserInfoDto);
 
-        return "redirect:/login";
+        return "ok";
     }
 }

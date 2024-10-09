@@ -7,8 +7,9 @@ import lombok.Data;
 public class JWTUserInfoDto {
 
     private String uiId;
-    private String uiNickname;
     private String uiPassword;
-    private String uiEmail;
-    private String role;
+    private String uiNickname;
+//    private String uiEmail;
+
+    private String uiRole;
 }

@@ -30,7 +30,7 @@ public class UserInfoEntity {
     private Integer uiHeight;
     private Integer uiAge;
     private String uiGender;
-    private String role;
+    private String uiRole;
 
     //DTO -> Entity
     public static UserInfoEntity toEntity(UserInfoDto userInfoDto){
@@ -45,6 +45,8 @@ public class UserInfoEntity {
                 .uiHeight(userInfoDto.getUiHeight())
                 .uiAge(userInfoDto.getUiAge())
                 .uiGender(userInfoDto.getUiGender())
+                .uiRole(userInfoDto.getUiRole())
                 .build();
     }
+
 }

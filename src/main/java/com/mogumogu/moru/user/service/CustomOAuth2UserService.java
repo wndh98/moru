@@ -47,14 +47,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userInfoEntity.setUiId(uiId);
             userInfoEntity.setUiEmail(oAuth2Response.getEmail());
             userInfoEntity.setUiNickname(oAuth2Response.getNickname());
-            userInfoEntity.setRole("ROLE_USER");
+            userInfoEntity.setUiRole("ROLE_USER");
 
             userInfoRepository.save(userInfoEntity);
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
             userInfoDTO.setUiNickname(oAuth2Response.getNickname());
-            userInfoDTO.setRole("ROLE_USER");
+            userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);
         }
@@ -69,7 +69,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
             userInfoDTO.setUiNickname(oAuth2Response.getNickname());
-            userInfoDTO.setRole("ROLE_USER");
+            userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);
         }
