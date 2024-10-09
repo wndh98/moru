@@ -1,14 +1,14 @@
 package com.mogumogu.moru.jwt.repository;
 
-import com.mogumogu.moru.jwt.entity.JWTUserEntity;
+import com.mogumogu.moru.user.entity.UserInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<JWTUserEntity, String> {
+public interface UserRepository extends JpaRepository<UserInfoEntity, String> {
 
     Boolean existsByUiId(String uiId);
 
-    JWTUserEntity findByUiId(String uiId);
+    UserInfoEntity findByUiId(String uiId);
 }

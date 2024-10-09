@@ -24,7 +24,7 @@ public class JWTUtil {
 
     public String getUiRole(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiRole", String.class);
     }
 
     public String getUiNickname(String token) {
@@ -43,12 +43,12 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String category,String uiId,String role, String uiNickname, Long expiredMs) {
+    public String createJwt(String category,String uiId,String uiRole, String uiNickname, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("category", category)
                 .claim("uiId", uiId)
-                .claim("role", role)
+                .claim("uiRole", uiRole)
                 .claim("uiNickname", uiNickname)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))

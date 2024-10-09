@@ -2,6 +2,7 @@ package com.mogumogu.moru.jwt.controller;
 
 import com.mogumogu.moru.jwt.dto.JWTUserInfoDto;
 import com.mogumogu.moru.jwt.service.JoinService;
+import com.mogumogu.moru.user.entity.UserInfoEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,9 @@ public class JoinController {
     }
 
     @PostMapping("/users")
-    public String JoinProcess(JWTUserInfoDto JWTUserInfoDto) {
-    System.out.println(JWTUserInfoDto.getUiNickname());
-        joinService.joinProcess(JWTUserInfoDto);
+    public String JoinProcess(UserInfoEntity userEntity) {
+    System.out.println(userEntity.getUiNickname());
+        joinService.joinProcess(userEntity);
 
         return "ok";
     }

@@ -1,6 +1,6 @@
 package com.mogumogu.moru.jwt.dto;
 
-import com.mogumogu.moru.jwt.entity.JWTUserEntity;
+import com.mogumogu.moru.user.entity.UserInfoEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,11 +9,11 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final JWTUserEntity JWTUserEntity;
+    private final UserInfoEntity UserEntity;
 
-    public CustomUserDetails(JWTUserEntity JWTUserEntity) {
+    public CustomUserDetails(UserInfoEntity UserEntity) {
 
-        this.JWTUserEntity = JWTUserEntity;
+        this.UserEntity = UserEntity;
     }
 
 
@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
             @Override
             public String getAuthority() {
 
-                return JWTUserEntity.getUiRole();
+                return UserEntity.getUiRole();
             }
         });
 
@@ -37,17 +37,17 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public String getPassword() {
 
-        return JWTUserEntity.getUiPassword();
+        return UserEntity.getUiPassword();
     }
 
     @Override
     public String getUsername() {
 
-        return JWTUserEntity.getUiId();
+        return UserEntity.getUiId();
     }
 
     public String getUiNickname(){
-        return JWTUserEntity.getUiNickname();
+        return UserEntity.getUiNickname();
     }
 
     @Override

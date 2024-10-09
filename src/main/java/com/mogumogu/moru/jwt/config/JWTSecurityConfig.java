@@ -112,7 +112,7 @@ public class JWTSecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login","/users").permitAll()
+                        .requestMatchers("/login","/","/users").permitAll()
                         .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
