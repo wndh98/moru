@@ -60,6 +60,7 @@ public class BoardContoller {
      *
      * @param boNum 게시판 번호
      * @return BoardBaseDTO
+     * @exception  BoardNotFoundException
      * @author 김주오
      */
     @GetMapping("/board/{boNum}")
@@ -72,6 +73,14 @@ public class BoardContoller {
         }
         return boardBaseDTO;
     }
+    /**
+     * BoardBaseDTO 를 기준으로 게시판 수정
+     * boNum 으로 게시판 번호 2중체크
+     * @param boNum 게시판 번호
+     * @param boardBaseDTO 수정 내용 boardBaseDTO
+     * @return 1 : 성공 0 실패
+     * @author 김주오
+     */
     @PutMapping("/board/{boNum}")
     public int modifyBoard(@RequestBody BoardBaseDTO boardBaseDTO,@PathVariable("boNum") int boNum){
         int result = 0;
@@ -82,6 +91,13 @@ public class BoardContoller {
         }
         return result;
     }
+    /**
+     * BoardBaseDTO 를 기준으로 게시판 소프트 DELETE
+     * boNum 으로 게시판 번호 2중체크
+     * @param boNum 게시판 번호
+     * @return 1 : 성공 0 실패
+     * @author 김주오
+     */
     @DeleteMapping("/board/{boNum}")
     public int removeBoard(@PathVariable("boNum") int boNum){
         int result = 0;
