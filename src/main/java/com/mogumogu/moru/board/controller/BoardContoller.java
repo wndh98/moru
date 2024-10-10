@@ -1,13 +1,18 @@
 package com.mogumogu.moru.board.controller;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
+import com.mogumogu.moru.board.dto.BoardFileDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
+import com.mogumogu.moru.board.entity.BoardFile;
 import com.mogumogu.moru.board.exception.BoardNotFoundException;
+import com.mogumogu.moru.board.service.BoardFileService;
 import com.mogumogu.moru.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +21,8 @@ import java.util.List;
 public class BoardContoller {
     @Autowired
     BoardService boardService;
+    @Autowired
+    BoardFileService boardFileService;
 
     /**
      * BoardBaseDTO 를 기준으로 게시판 INSERT
@@ -107,5 +114,17 @@ public class BoardContoller {
             throw new RuntimeException(e);
         }
         return result;
+    }
+    @PostMapping("/boardFile/{boType}/{boNum}")
+    public List<String> addBoardFile(@PathVariable("boType") String boType, @PathVariable("boNum") Integer boNum, @RequestPart("bfFile") MultipartFile[] bfFiles){
+        List<String> list = null;
+        try {
+            list = boardFileService.BoardFileadd(boType,boNum,bfFiles);
+        } catch (BoardNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 }
