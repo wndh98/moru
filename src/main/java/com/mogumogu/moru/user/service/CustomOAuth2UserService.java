@@ -45,15 +45,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             UserInfoEntity userInfoEntity = new UserInfoEntity();
             userInfoEntity.setUiId(uiId);
-            userInfoEntity.setUiEmail(oAuth2Response.getEmail());
-            userInfoEntity.setUiNickname(oAuth2Response.getNickname());
+            userInfoEntity.setUiEmail(oAuth2Response.getUiEmail());
+            userInfoEntity.setUiNickname(oAuth2Response.getUiNickname());
             userInfoEntity.setUiRole("ROLE_USER");
 
             userInfoRepository.save(userInfoEntity);
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
-            userInfoDTO.setUiNickname(oAuth2Response.getNickname());
+            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
             userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);
@@ -61,14 +61,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         //데이터가 존재하는 경우
         else {
 
-            existData.setUiEmail(oAuth2Response.getEmail());
-            existData.setUiNickname(oAuth2Response.getNickname());
+            existData.setUiEmail(oAuth2Response.getUiEmail());
+            existData.setUiNickname(oAuth2Response.getUiNickname());
 
             userInfoRepository.save(existData);
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
-            userInfoDTO.setUiNickname(oAuth2Response.getNickname());
+            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
             userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);

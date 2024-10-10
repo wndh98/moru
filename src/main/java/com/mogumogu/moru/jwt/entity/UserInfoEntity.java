@@ -37,14 +37,8 @@ public class UserInfoEntity {
         return UserInfoEntity.builder()
                 .uiId(userInfoDto.getUiId())
                 .uiNickname(userInfoDto.getUiNickname())
-                .uiDel(userInfoDto.getUiDel())
-                .uiPoint(userInfoDto.getUiPoint())
-                .uiRegist(userInfoDto.getUiRegist())
                 .uiPassword(userInfoDto.getUiPassword())
                 .uiEmail(userInfoDto.getUiEmail())
-                .uiHeight(userInfoDto.getUiHeight())
-                .uiAge(userInfoDto.getUiAge())
-                .uiGender(userInfoDto.getUiGender())
                 .uiRole(userInfoDto.getUiRole())
                 .build();
     }

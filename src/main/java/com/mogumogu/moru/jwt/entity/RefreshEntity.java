@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "USER_REFRESH_TOKEN_TB")
+@Table(name="USER_REFRESH_TOKEN_TB")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +16,6 @@ public class RefreshEntity {
     @Id
     @Column(name = "URT_TOKEN")
     private String urtToken; //refreshToken
-
     private String uiId; //id
     private String uiNickname;
     private String uiEmail;

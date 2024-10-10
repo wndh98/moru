@@ -18,16 +18,16 @@ public class KakaoResponse implements OAuth2Response {
 
     @Override
     public String getProviderId() {
-        return attribute.get("id").toString();
+        return attribute.get("uiId").toString();
     }
 
     @Override
-    public String getEmail() {
-        return attribute.get("email").toString();
+    public String getUiEmail() {
+        return attribute.get("uiEmail").toString();
     }
 
     @Override
-    public String getNickname() {
-        return attribute.get("nickname").toString();
+    public String getUiNickname() {
+        return attribute.get("uiNickname").toString();
     }
 }

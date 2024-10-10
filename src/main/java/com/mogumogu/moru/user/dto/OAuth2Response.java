@@ -9,8 +9,8 @@ public interface OAuth2Response {
     String getProviderId();
 
     //이메일
-    String getEmail();
+    String getUiEmail();
 
     //사용자 실명 (설정한 이름)
-    String getNickname();
+    String getUiNickname();
 }

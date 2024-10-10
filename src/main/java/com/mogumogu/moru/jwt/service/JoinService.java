@@ -23,7 +23,6 @@ public class JoinService {
         String uiNickname = UserDto.getUiNickname();
         String uiEmail = UserDto.getUiEmail();
 
-
         Boolean isExist = userRepository.existsByUiId(uiId);
 
         if (isExist) {

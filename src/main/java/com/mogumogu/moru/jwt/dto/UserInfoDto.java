@@ -8,14 +8,8 @@ import java.time.LocalDateTime;
 public class UserInfoDto {
     private String uiId;
     private String uiNickname;
-    private char uiDel;
-    private int uiPoint;
-    private LocalDateTime uiRegist;
     private String uiPassword;
     private String uiEmail;
-    private int uiHeight;
-    private int uiAge;
-    private String uiGender;
     private String uiRole;
 
 }
