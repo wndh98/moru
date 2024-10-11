@@ -1,5 +1,6 @@
 package com.mogumogu.moru.user.dto;
 
+
 import java.util.Map;
 
 public class KakaoResponse implements OAuth2Response {
