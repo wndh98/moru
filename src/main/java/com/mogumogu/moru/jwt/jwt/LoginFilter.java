@@ -39,7 +39,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println(authenticationManager);
+
         UserInfoDto userDto = new UserInfoDto();
         System.out.println(userDto);
         try {
@@ -76,7 +76,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //유저 정보
         String uiId = authentication.getName();
-        String uiNickname = authentication.getName();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -84,8 +83,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String uiRole = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", uiId, uiRole, uiNickname, 600000L);
-        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiRole, uiNickname,86400000L);
+        String access = jwtUtil.createJwt("access", uiId, uiRole, 600000L);
+        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiRole,86400000L);
 
         //Refresh 토큰 저장
         addRefreshEntity(uiId, urtToken,86400000L);

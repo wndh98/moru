@@ -5,11 +5,13 @@ import com.mogumogu.moru.user.dto.OAuth2Response;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.user.repository.UserInfoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -45,15 +47,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             UserInfoEntity userInfoEntity = new UserInfoEntity();
             userInfoEntity.setUiId(uiId);
-            userInfoEntity.setUiEmail(oAuth2Response.getUiEmail());
-            userInfoEntity.setUiNickname(oAuth2Response.getUiNickname());
             userInfoEntity.setUiRole("ROLE_USER");
 
             userInfoRepository.save(userInfoEntity);
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
-            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
             userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);
@@ -61,14 +60,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         //데이터가 존재하는 경우
         else {
 
-            existData.setUiEmail(oAuth2Response.getUiEmail());
             existData.setUiNickname(oAuth2Response.getUiNickname());
 
             userInfoRepository.save(existData);
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
-            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
+//            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
             userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);

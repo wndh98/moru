@@ -68,13 +68,11 @@ public class JWTFilter extends OncePerRequestFilter {
         // uiId,role,uiNickname 값을 획득
         String uiId = jwtUtil.getUiId(accessToken);
         String uiRole = jwtUtil.getUiRole(accessToken);
-        String uiNickname = jwtUtil.getUiNickname(accessToken);
 
 
         UserInfoEntity userEntity = new UserInfoEntity();
         userEntity.setUiId(uiId);
         userEntity.setUiRole(uiRole);
-        userEntity.setUiNickname(uiNickname);
         CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());

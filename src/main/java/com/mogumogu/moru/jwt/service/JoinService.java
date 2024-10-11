@@ -20,8 +20,7 @@ public class JoinService {
 
         String uiId = UserDto.getUiId();
         String uiPassword = UserDto.getUiPassword();
-        String uiNickname = UserDto.getUiNickname();
-        String uiEmail = UserDto.getUiEmail();
+//        String uiNickname = UserDto.getUiNickname();
 
         Boolean isExist = userRepository.existsByUiId(uiId);
 
@@ -33,8 +32,7 @@ public class JoinService {
 
         data.setUiId(uiId);
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));
-        data.setUiNickname(uiNickname);
-        data.setUiEmail(uiEmail);
+//        data.setUiNickname(uiNickname);
         data.setUiRole("ROLE_ADMIN");
 
         userRepository.save(data);

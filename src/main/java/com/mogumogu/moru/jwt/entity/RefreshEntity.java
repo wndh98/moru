@@ -18,7 +18,6 @@ public class RefreshEntity {
     private String urtToken; //refreshToken
     private String uiId; //id
     private String uiNickname;
-    private String uiEmail;
     private String expiration;
 
     public static RefreshEntity toEntity(RefreshEntity refreshEntity) {
@@ -26,7 +25,6 @@ public class RefreshEntity {
                 .urtToken(refreshEntity.getUrtToken())
                 .uiId(refreshEntity.getUiId())
                 .uiNickname(refreshEntity.getUiNickname())
-                .uiEmail(refreshEntity.getUiEmail())
                 .expiration(refreshEntity.getExpiration())
                 .build();
     }

@@ -18,7 +18,6 @@ public class JoinController {
 
     @PostMapping("/users")
     public String JoinProcess(UserInfoDto UserDto) {
-    System.out.println(UserDto.getUiNickname());
         joinService.joinProcess(UserDto);
 
         return "ok";

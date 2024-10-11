@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 
 public class UserInfoDto {
     private String uiId;
-    private String uiNickname;
     private String uiPassword;
-    private String uiEmail;
     private String uiRole;
 
 }

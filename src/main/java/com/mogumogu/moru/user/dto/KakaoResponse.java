@@ -9,7 +9,7 @@ public class KakaoResponse implements OAuth2Response {
 
     public KakaoResponse(Map<String, Object> attribute) {
 
-        this.attribute = (Map<String, Object>) attribute.get("response");
+        this.attribute = attribute;
     }
 
     @Override
@@ -22,10 +22,6 @@ public class KakaoResponse implements OAuth2Response {
         return attribute.get("uiId").toString();
     }
 
-    @Override
-    public String getUiEmail() {
-        return attribute.get("uiEmail").toString();
-    }
 
     @Override
     public String getUiNickname() {

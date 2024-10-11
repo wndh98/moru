@@ -36,9 +36,7 @@ public class UserInfoEntity {
     public static UserInfoEntity toEntity(UserInfoDto userInfoDto){
         return UserInfoEntity.builder()
                 .uiId(userInfoDto.getUiId())
-                .uiNickname(userInfoDto.getUiNickname())
                 .uiPassword(userInfoDto.getUiPassword())
-                .uiEmail(userInfoDto.getUiEmail())
                 .uiRole(userInfoDto.getUiRole())
                 .build();
     }
