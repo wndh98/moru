@@ -24,7 +24,8 @@ public class UserInfoEntity {
     @Builder.Default
     private char uiDel = 'N';
     private int uiPoint;
-    private LocalDateTime uiRegist;
+    @Builder.Default
+    private LocalDateTime uiRegist=LocalDateTime.now();
     private String uiPassword;
     private String uiEmail;
     private Integer uiHeight;
@@ -37,8 +38,21 @@ public class UserInfoEntity {
         return UserInfoEntity.builder()
                 .uiId(userInfoDto.getUiId())
                 .uiPassword(userInfoDto.getUiPassword())
+                .uiNickname(userInfoDto.getUiNickname())
+                .uiPoint(userInfoDto.getUiPoint())
+                .uiRegist(userInfoDto.getUiRegist())
+                .uiEmail(userInfoDto.getUiEmail())
+                .uiHeight(userInfoDto.getUiHeight())
+                .uiAge(userInfoDto.getUiAge())
+                .uiGender(userInfoDto.getUiGender())
                 .uiRole(userInfoDto.getUiRole())
                 .build();
     }
 
+    @PrePersist
+    public void prePersist(){
+        if(uiRegist == null){
+            this.uiRegist = LocalDateTime.now();
+        }
+    }
 }

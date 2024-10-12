@@ -74,15 +74,16 @@ public class ReissueController {
         }
 
         String uiId = jwtUtil.getUiId(urtToken);
+        String uiNickname = jwtUtil.getUiNickname(urtToken);
         String uiRole = jwtUtil.getUiRole(urtToken);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", uiId, uiRole, 600000L);
-        String newUrtToken = jwtUtil.createJwt("urtToken", uiId, uiRole, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", uiId,uiNickname, uiRole, 600000L);
+        String newUrtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname,uiRole, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 urtToken 토큰 저장
         refreshRepository.deleteByUrtToken(urtToken);
-        addRefreshEntity(uiId, newUrtToken, 86400000L);
+        addRefreshEntity(uiId, newUrtToken, uiNickname,86400000L);
 
         //response
         response.setHeader("access", newAccess);
@@ -91,12 +92,13 @@ public class ReissueController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void addRefreshEntity(String uiId, String urtToken, Long expiredMs) {
+    private void addRefreshEntity(String uiId,String uiNickname, String urtToken, Long expiredMs) {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
         refreshEntity.setUiId(uiId);
+        refreshEntity.setUiNickname(uiNickname);
         refreshEntity.setUrtToken(urtToken);
         refreshEntity.setExpiration(date.toString());
 

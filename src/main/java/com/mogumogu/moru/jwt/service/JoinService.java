@@ -6,6 +6,8 @@ import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class JoinService {
     private final UserRepository userRepository;
@@ -20,7 +22,7 @@ public class JoinService {
 
         String uiId = UserDto.getUiId();
         String uiPassword = UserDto.getUiPassword();
-//        String uiNickname = UserDto.getUiNickname();
+        String uiNickname = UserDto.getUiNickname();
 
         Boolean isExist = userRepository.existsByUiId(uiId);
 
@@ -28,12 +30,15 @@ public class JoinService {
 
             return;
         }
-        UserInfoEntity data = new UserInfoEntity();
 
-        data.setUiId(uiId);
+        UserInfoEntity data;
+        data=UserInfoEntity.toEntity(UserDto);
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));
+//        data.setUiId(uiId);
+
 //        data.setUiNickname(uiNickname);
-        data.setUiRole("ROLE_ADMIN");
+//        data.setUiRole("ROLE_ADMIN");
+//        data.setUiRegist(LocalDateTime.now());
 
         userRepository.save(data);
     }
