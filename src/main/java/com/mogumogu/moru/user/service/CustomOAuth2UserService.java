@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -40,7 +42,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         //리소스 서버에서 발급 받은 정보로 사용자를 특정할 아이디값을 만듬
         String uiId = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
-        UserInfoEntity existData = userInfoRepository.findByUiId(uiId);
+        UserInfoEntity existData = userInfoRepository.findByUiId(uiId).orElseThrow();
 
         //데이터가 존재하지 않는 경우
         if (existData == null) {

@@ -42,26 +42,18 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println("loginFilter");
-        UserInfoDto userDto = new UserInfoDto();
-        userDto.setUiId(request.getParameter("uiId"));
-        userDto.setUiNickname(request.getParameter("uiNickname"));
-        userDto.setUiPassword(request.getParameter("uiPassword"));
+
+        String uiId = obtainUsername(request);
+        String uiPassword = obtainPassword(request);
 
 //        try {
 //            ObjectMapper objectMapper = new ObjectMapper();
 //            ServletInputStream inputStream = request.getInputStream();
 //            String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-//            System.out.println("/***************************/");
-//            System.out.println(messageBody);
-//            System.out.println("/***************************/");
 //            userDto = objectMapper.readValue(messageBody, UserInfoDto.class);
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        String uiId = userDto.getUiId();
-        String uiNickname = userDto.getUiNickname();
-        String uiPassword = userDto.getUiPassword();
 
         //스프링 시큐리티에서 uiId password를 검증하기 위해서는 token에 담아야 함
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(uiId, uiPassword);

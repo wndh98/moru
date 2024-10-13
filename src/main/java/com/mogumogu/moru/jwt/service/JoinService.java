@@ -31,15 +31,16 @@ public class JoinService {
             return;
         }
 
+
         UserInfoEntity data;
-        data=UserInfoEntity.toEntity(UserDto);
+        data = UserInfoEntity.toEntity(UserDto);
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));
 //        data.setUiId(uiId);
 
 //        data.setUiNickname(uiNickname);
 //        data.setUiRole("ROLE_ADMIN");
 //        data.setUiRegist(LocalDateTime.now());
-
+        System.out.println(data);
         userRepository.save(data);
     }
 }
