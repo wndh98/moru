@@ -6,9 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Entity
@@ -24,7 +23,8 @@ public class UserWeightEntity {
     @Column(name = "UW_NUM", nullable = false)
     private int uwNum;
     private String uiId;
-    private Date uwDate;
+    @Builder.Default
+    private LocalDate uwDate=LocalDate.now();
     private int uwWeight;
     private int uwBodyFat;
     private int uwMuscle;
@@ -38,5 +38,12 @@ public class UserWeightEntity {
                 .uwBodyFat(userWeightDto.getUwWeight())
                 .uwMuscle(userWeightDto.getUwWeight())
                 .build();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (uwDate == null) {
+            this.uwDate = LocalDate.now();
+        }
     }
 }

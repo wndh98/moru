@@ -1,5 +1,7 @@
 package com.mogumogu.moru.jwt.config;
 
+import com.mogumogu.moru.jwt.handler.CustomAccessDeniedHandler;
+import com.mogumogu.moru.jwt.jwt.CustomAuthenticationDetailSource;
 import com.mogumogu.moru.jwt.jwt.JWTFilter;
 import com.mogumogu.moru.jwt.jwt.JWTUtil;
 import com.mogumogu.moru.jwt.jwt.LoginFilter;
@@ -9,8 +11,10 @@ import com.mogumogu.moru.user.service.CustomOAuth2UserService;
 import com.mogumogu.moru.user.userjwt.UserJWTFilter;
 import com.mogumogu.moru.user.userjwt.UserJWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,6 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -29,6 +34,8 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class JWTSecurityConfig {
+    @Autowired
+    private AuthenticationDetailsSource customAuthenticationDetailSource;
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
@@ -56,7 +63,12 @@ public class JWTSecurityConfig {
 
         return new BCryptPasswordEncoder();
     }
-
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
+        accessDeniedHandler.setErrorPage("/denied");
+        return accessDeniedHandler;
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -98,7 +110,10 @@ public class JWTSecurityConfig {
                         .requestMatchers("/login", "/", "/users").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/reissue").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+                )
+                        .authenticationProvider(customAuthenticationDetailSource)
+                        .accessDeniedHandler(accessDeniedHandler());
 
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);

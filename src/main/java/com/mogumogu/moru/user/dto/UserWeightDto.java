@@ -1,13 +1,12 @@
 package com.mogumogu.moru.user.dto;
-import com.mogumogu.moru.jwt.dto.UserInfoDto;
-import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.user.entity.UserWeightEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
-import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,7 +14,7 @@ import java.util.Date;
 public class UserWeightDto {
     private int uwNum;
     private String uiId;
-    private Date uwDate;
+    private LocalDate uwDate;
     private int uwWeight;
     private int uwBodyFat;
     private int uwMuscle;

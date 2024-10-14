@@ -24,6 +24,10 @@ public class UserJWTUtil {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiId", String.class);
     }
+    public String getUiNickname(String token) {
+
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiNickname", String.class);
+    }
 
     public String getRole(String token) {
 
@@ -35,10 +39,11 @@ public class UserJWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String uiId, String role, Long expiredMs) {
+    public String createJwt(String uiId, String role,String uiNickname, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("uiId", uiId)
+                .claim("uiNickname", uiNickname)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))

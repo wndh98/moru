@@ -29,7 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             //UserDetails에 담아서 return하면 AutneticationManager가 검증 함
             return new CustomUserDetails(userData);
         }
+        AccountContext accountContext = new AccountContext(userInfoEntity, uiRole);
 
-        return null;
+        return accountContext;
     }
 }

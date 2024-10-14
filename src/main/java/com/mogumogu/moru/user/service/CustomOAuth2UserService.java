@@ -29,7 +29,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        System.out.println(oAuth2User);
+        System.out.println(oAuth2User+"oAuth2User");
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response = null;
@@ -42,19 +42,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         //리소스 서버에서 발급 받은 정보로 사용자를 특정할 아이디값을 만듬
         String uiId = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        String uiNickname = oAuth2Response.getUiNickname();
         UserInfoEntity existData = userInfoRepository.findByUiId(uiId).orElseThrow();
-
+        existData = userInfoRepository.findByUiNickname(uiNickname).orElseThrow();
         //데이터가 존재하지 않는 경우
         if (existData == null) {
 
             UserInfoEntity userInfoEntity = new UserInfoEntity();
             userInfoEntity.setUiId(uiId);
+            userInfoEntity.setUiNickname(uiNickname);
             userInfoEntity.setUiRole("ROLE_USER");
 
             userInfoRepository.save(userInfoEntity);
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
+            userInfoDTO.setUiNickname(uiNickname);
             userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);
@@ -68,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             UserInfoDto userInfoDTO = new UserInfoDto();
             userInfoDTO.setUiId(uiId);
-//            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
+            userInfoDTO.setUiNickname(oAuth2Response.getUiNickname());
             userInfoDTO.setUiRole("ROLE_USER");
 
             return new CustomOAuth2User(userInfoDTO);

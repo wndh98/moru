@@ -9,5 +9,7 @@ import java.util.Optional;
 public interface UserInfoRepository extends JpaRepository<UserInfoEntity, String> {
 
     Optional<UserInfoEntity> findByUiId(String uiId);
+
+    Optional<UserInfoEntity> findByUiNickname(String uiNickname);
 }
 
