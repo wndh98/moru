@@ -26,7 +26,8 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public int boardAdd(BoardBaseDTO boardBaseDTO) {
         // TODO : jwt 완성시 수정
-        boardBaseDTO = BoardBaseDTO.builder().userInfoDTO(UserInfoDTO.builder().uiId("test").build()).boTitle("title").boContent("content").boType("free").boWriter("writer").build();
+        boardBaseDTO = BoardBaseDTO.builder().userInfoDTO(UserInfoDTO.builder().uiId("test").build()).boTitle("title")
+                .boContent("content").boType("free").boWriter("writer").build();
         int result = 0;
         BoardBase boardBase = boardBaseRepository.save(BoardBase.toEntity(boardBaseDTO));
         if (boardBase.getBoReply() == 0) {
