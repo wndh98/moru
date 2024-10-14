@@ -2,6 +2,7 @@ package com.mogumogu.moru.jwt.jwt;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mogumogu.moru.jwt.dto.CustomUserDetails;
 import com.mogumogu.moru.jwt.entity.RefreshEntity;
 import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.jwt.repository.RefreshRepository;
@@ -63,7 +64,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String uiNickname = userDto.getUiNickname();
 
         CustomAuthenticationToken authToken = new CustomAuthenticationToken(uiId, uiPassword,uiNickname);
-        setDetails(request, authToken);
+
         //token에 담은 검증을 위한 AuthenticationManager로 전달
         return authenticationManager.authenticate(authToken);
 
@@ -72,23 +73,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
-        /*
-         * 1. 회원가입을 한다
-         * 2. 로그인을 한다
-         * 3. 아이디, 비밀번호를 입력후 로그인 버튼을 누른다
-         * 4. 아이디, 비밀번호
-         * 1.authentication 회원의 모든 정보가 들어있을때
-         *
-         *
-         * 2.authentication 아이디 비밀번호만 들어있을때
-         * 데이터베이스 아이디를 기반으로 회원 정보를 검색
-         *
-         * */
 
         //유저 정보
         String uiId = authentication.getName();
-        String uiNickname = ((CustomAuthenticationToken) authentication).getNickname();
-        System.out.println("=======================");
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        System.out.println(authentication.getPrincipal()+"authentication.getPrincipal()");
+        String uiNickname = customUserDetails.getUiNickname();
         System.out.println(uiNickname+"uiNickname");
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -99,11 +89,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //이 위에서 아이디,비밀번호 맞는지 검증
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", uiId, uiRole, uiNickname, 600000L);
-        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiRole, uiNickname, 86400000L);
-        System.out.println(access);
+        String access = jwtUtil.createJwt("access", uiId, uiNickname, uiRole, 600000L);
+        String urtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, uiRole, 86400000L);
+
         //Refresh 토큰 저장
-        addRefreshEntity(uiId, urtToken, uiNickname, 86400000L);
+        addRefreshEntity(uiId, uiNickname, urtToken, 86400000L);
 
         //응답 설정
         response.setHeader("access", access);
@@ -132,7 +122,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //초기화 후 저장
         refreshRepository.save(refreshEntity);
-        System.out.println("successful");
     }
 
     private Cookie createCookie(String key, String value) {

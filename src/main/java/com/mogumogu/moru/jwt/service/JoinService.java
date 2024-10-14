@@ -35,12 +35,8 @@ public class JoinService {
         UserInfoEntity data;
         data = UserInfoEntity.toEntity(UserDto);
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));
-//        data.setUiId(uiId);
 
-//        data.setUiNickname(uiNickname);
-//        data.setUiRole("ROLE_ADMIN");
-//        data.setUiRegist(LocalDateTime.now());
-        System.out.println(data);
+        System.out.println(data+"data");
         userRepository.save(data);
     }
 }
