@@ -20,7 +20,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
@@ -28,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
@@ -69,10 +72,24 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+        /*
+         * 1. 회원가입을 한다
+         * 2. 로그인을 한다
+         * 3. 아이디, 비밀번호를 입력후 로그인 버튼을 누른다
+         * 4. 아이디, 비밀번호
+         * 1.authentication 회원의 모든 정보가 들어있을때
+         *
+         *
+         * 2.authentication 아이디 비밀번호만 들어있을때
+         * 데이터베이스 아이디를 기반으로 회원 정보를 검색
+         *
+         * */
 
         //유저 정보
         String uiId = authentication.getName();
-        String uiNickname = authentication.getName();
+        String uiNickname = ((CustomAuthenticationToken) authentication).getNickname();
+        System.out.println("=======================");
+        System.out.println(uiNickname+"uiNickname");
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
