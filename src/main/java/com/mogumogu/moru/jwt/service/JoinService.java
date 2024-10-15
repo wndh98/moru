@@ -30,8 +30,6 @@ public class JoinService {
 
             return;
         }
-
-
         UserInfoEntity data;
         data = UserInfoEntity.toEntity(UserDto);
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));

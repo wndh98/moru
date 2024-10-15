@@ -15,15 +15,14 @@ import java.util.Map;
 public class EmailController {
     private final EmailSendService emailSendService;
 
+    @PostMapping("/login/email")
+    public Map<String, String> mailSend(@RequestBody UserInfoDto userInfoDto) {
+        String code = emailSendService.joinEmail(userInfoDto.getUiEmail());
 
-//    @PostMapping("/signup/email")
-//    public Map<String, String> mailSend(@RequestBody @Valid UserInfoDto userInfoDto) {
-//        String code = emailSendService.joinEmail(userInfoDto.getUiEmail());
-//
-//        // response를 JSON 문자열으로 반환
-//        Map<String, String> response = new HashMap<>();
-//        response.put("code", code);
-//
-//        return response;
-//    }
+        // response를 JSON 문자열으로 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("code", code);
+
+        return response;
+    }
 }

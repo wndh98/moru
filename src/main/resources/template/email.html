@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#email-button").click(function () {
+            var email = $("#email").val();
+            var userInfoDto = {
+                email: email
+            };
+            $.ajax({
+                type: "POST",
+                url: "/login/email",
+                contentType: "application/json",
+                data: JSON.stringify(userInfoDto),
+                success: function (code) {
+                    if (code) {
+                        alert("입력하신 메일로 인증번호가 전송되었습니다.");
+                    } else {
+                        alert("인증번호를 받을 수 없습니다.");
+                    }
+                },
+                error: function () {
+                    alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

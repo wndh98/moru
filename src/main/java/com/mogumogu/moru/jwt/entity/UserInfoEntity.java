@@ -55,5 +55,4 @@ public class UserInfoEntity {
             this.uiRegist = LocalDateTime.now();
         }
     }
-
 }
