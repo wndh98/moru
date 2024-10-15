@@ -7,11 +7,11 @@ import com.mogumogu.moru.user.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Objects;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
-    char UserInfo_DEL = 'Y';
 
     UserInfoRepository userInfoRepository;
 
@@ -48,9 +48,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         int result = 1;
         UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-        userInfoEntity.setUiDel(UserInfo_DEL);
+        userInfoEntity.setUiDel('Y');
         userInfoRepository.save(userInfoEntity);
         return result;
+    }
+
+    @Override
+    public Map<String, String> Token(String uiId) {
+        return Map.of();
     }
 }
 

@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USER_INFO_TB")
@@ -33,8 +35,8 @@ public class UserInfoEntity {
     private Integer uiAge;
     private String uiGender;
     private String uiRole;
-    @ManyToOne
-    private UserWeightEntity userWeight;
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.REMOVE)
+    private List<UserWeightEntity> userWeightList = new ArrayList<>();
 
     //DTO -> Entity
     public static UserInfoEntity toEntity(UserInfoDto userInfoDto) {

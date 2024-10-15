@@ -8,12 +8,16 @@ import com.mogumogu.moru.user.service.UserWeightService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @RestController
@@ -46,9 +50,20 @@ public class UserInfoController {
         int result = 0;
         try {
             result = userInfoService.removeUser(uiId);
+
+            //token 받아오기
+            Map<String, String> tokens = userInfoService.Token(uiId);
+            String AccessToken = tokens.get("access_token");
+
+            //authorization 삭제하기
+//            userInfoService.unlink(AccessToken);
+
+            // 사용자 정보 db/서버에서 삭제하기
+            userInfoService.removeUser(uiId);
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
         return result;
     }
+
 }

@@ -16,6 +16,8 @@ public class UserWeightServiceImpl implements UserWeightService {
 
     @Override
     public int saveUserWeight(UserWeightDto userWeightDto, String uiId) throws UserNotFoundException {
+
+
         return 0;
     }
 

@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDate;
 
 
@@ -29,8 +32,8 @@ public class UserWeightEntity {
     private int uwWeight;
     private int uwBodyFat;
     private int uwMuscle;
-    @OneToOne
-    @JoinColumn(name ="userInfo_uiId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userInfo_uiId", nullable = false)
     private UserInfoEntity userInfo;
 
     public static UserWeightEntity toEntity(UserWeightDto userWeightDto){
