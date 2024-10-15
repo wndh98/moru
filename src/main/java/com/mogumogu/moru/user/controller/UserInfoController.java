@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,11 +68,9 @@ public class UserInfoController {
     }
 
     @GetMapping("/userWeight")
-    public List<UserWeightDto> listUserWeight(Authentication authentication) {
+    public List<UserWeightDto> listUserWeight(Authentication authentication,@RequestParam LocalDate weekStart) throws UserNotFoundException {
         String uiId = authentication.getName();
-        List<UserWeightDto> list = new ArrayList<>();
-        list = userWeightService.listUserWeight(uiId);
-        return list;
+        return userWeightService.listUserWeightAndWeek(uiId,weekStart);
     }
 
     @DeleteMapping("/userWeight")

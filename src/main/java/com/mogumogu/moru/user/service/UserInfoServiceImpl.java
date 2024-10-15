@@ -19,7 +19,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfoDto detailsUserInfo(String uiId) {
         UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow();
-        ;
         UserInfoDto userInfoDto = UserInfoDto.toDto(userInfoEntity);
         return userInfoDto;
     }

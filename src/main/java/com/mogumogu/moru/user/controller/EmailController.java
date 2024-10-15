@@ -15,7 +15,7 @@ import java.util.Map;
 public class EmailController {
     private final EmailSendService emailSendService;
 
-    @PostMapping("/login/email")
+    @PostMapping("/users/email")
     public Map<String, String> mailSend(@RequestBody UserInfoDto userInfoDto) {
         String code = emailSendService.joinEmail(userInfoDto.getUiEmail());
 

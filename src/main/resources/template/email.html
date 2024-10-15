@@ -14,7 +14,7 @@
             };
             $.ajax({
                 type: "POST",
-                url: "/login/email",
+                url: "/users/email",
                 contentType: "application/json",
                 data: JSON.stringify(userInfoDto),
                 success: function (code) {
