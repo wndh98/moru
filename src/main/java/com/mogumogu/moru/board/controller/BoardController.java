@@ -1,7 +1,6 @@
 package com.mogumogu.moru.board.controller;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
-import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @RestController
 //@Slf4j
-public class BoardContoller {
+public class BoardController {
     @Autowired
     BoardService boardService;
 
