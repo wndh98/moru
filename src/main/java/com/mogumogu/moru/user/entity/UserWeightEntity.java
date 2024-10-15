@@ -1,5 +1,6 @@
 package com.mogumogu.moru.user.entity;
 
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.user.dto.UserWeightDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,9 @@ public class UserWeightEntity {
     private int uwWeight;
     private int uwBodyFat;
     private int uwMuscle;
+    @OneToOne
+    @JoinColumn(name ="userInfo_uiId")
+    private UserInfoEntity userInfo;
 
     public static UserWeightEntity toEntity(UserWeightDto userWeightDto){
         return UserWeightEntity.builder()

@@ -13,7 +13,6 @@ import java.util.Objects;
 public class UserInfoServiceImpl implements UserInfoService {
     char UserInfo_DEL = 'Y';
 
-    @Autowired
     UserInfoRepository userInfoRepository;
 
     @Override

@@ -1,10 +1,8 @@
 package com.mogumogu.moru.user.service;
 
 import com.mogumogu.moru.user.dto.UserWeightDto;
-import com.mogumogu.moru.user.entity.UserWeightEntity;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.repository.UserWeightRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -13,7 +11,7 @@ import java.util.List;
 
 @Service
 public class UserWeightServiceImpl implements UserWeightService {
-    @Autowired
+
     private UserWeightRepository userWeightRepository;
 
     @Override
@@ -26,11 +24,16 @@ public class UserWeightServiceImpl implements UserWeightService {
 
         // 주 시작일을 일요일로 설정
         LocalDate startOfWeek = weekStart.with(DayOfWeek.SUNDAY);
-
         // 주 종료일을 토요일로 설정
         LocalDate endOfWeek = startOfWeek.with(DayOfWeek.SATURDAY).plusDays(1); // 다음 날로 설정 (inclusive)
 
         return userWeightRepository.listUserWeightAndWeek(uiId, startOfWeek.atStartOfDay(), endOfWeek.atStartOfDay());
+    }
+
+    @Override
+    public List<UserWeightDto> removeUserWeight(String uiId, int uwNum) throws UserNotFoundException {
+
+        return userWeightRepository.removeUserWeight(uiId,uwNum);
     }
 }
 

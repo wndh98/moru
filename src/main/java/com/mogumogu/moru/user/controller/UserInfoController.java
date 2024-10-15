@@ -18,9 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class UserInfoController {
-    @Autowired
+
     UserInfoService userInfoService;
-    UserWeightService userWeightService;
 
     @GetMapping("/users")
     public UserInfoDto detailsUserInfo(Authentication authentication) {
@@ -50,38 +49,6 @@ public class UserInfoController {
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return result;
-    }
-
-
-
-    @PostMapping("/userWeight")
-    public int saveUserWeight(@RequestBody UserWeightDto userWeightDto, Authentication authentication) {
-        String uiId = authentication.getName();
-        int result = 0;
-        try {
-            result = userWeightService.saveUserWeight(userWeightDto, uiId);
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
-
-    @GetMapping("/userWeight")
-    public List<UserWeightDto> listUserWeight(Authentication authentication,@RequestParam LocalDate weekStart) throws UserNotFoundException {
-        String uiId = authentication.getName();
-        return userWeightService.listUserWeightAndWeek(uiId,weekStart);
-    }
-
-    @DeleteMapping("/userWeight")
-    public int removeUserWeight(Authentication authentication) {
-        String uiId = authentication.getName();
-        int result = 0;
-//        try {
-//            result = userWeightService.removeUserWeight(uiId);
-//        } catch (UserNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
         return result;
     }
 }

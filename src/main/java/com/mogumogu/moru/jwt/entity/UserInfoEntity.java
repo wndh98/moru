@@ -1,6 +1,7 @@
 package com.mogumogu.moru.jwt.entity;
 
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
+import com.mogumogu.moru.user.entity.UserWeightEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,23 +19,25 @@ import java.time.LocalDateTime;
 public class UserInfoEntity {
 
     @Id
-    @Column(name="UI_ID")
+    @Column(unique = true)
     private String uiId;
     private String uiNickname;
     @Builder.Default
     private char uiDel = 'N';
     private int uiPoint;
     @Builder.Default
-    private LocalDateTime uiRegist=LocalDateTime.now();
+    private LocalDateTime uiRegist = LocalDateTime.now();
     private String uiPassword;
     private String uiEmail;
     private Integer uiHeight;
     private Integer uiAge;
     private String uiGender;
     private String uiRole;
+    @ManyToOne
+    private UserWeightEntity userWeight;
 
     //DTO -> Entity
-    public static UserInfoEntity toEntity(UserInfoDto userInfoDto){
+    public static UserInfoEntity toEntity(UserInfoDto userInfoDto) {
         return UserInfoEntity.builder()
                 .uiId(userInfoDto.getUiId())
                 .uiPassword(userInfoDto.getUiPassword())
@@ -50,8 +53,8 @@ public class UserInfoEntity {
     }
 
     @PrePersist
-    public void prePersist(){
-        if(uiRegist == null){
+    public void prePersist() {
+        if (uiRegist == null) {
             this.uiRegist = LocalDateTime.now();
         }
     }
