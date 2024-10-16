@@ -20,7 +20,7 @@ public class DiaryHashtagLinkDTO {
         return DiaryHashtagLinkDTO.builder()
                 .dhlNum(diaryHashtagLink.getDhlNum())
                 .diaryHashtagDTO(DiaryHashtagDTO.toDTO(diaryHashtagLink.getDiaryHashtag()))
-                .diaryWalkDTO(DiaryWalkDTO.toDTO(diaryHashtagLink.getDiaryWalk()))
+//                .diaryWalkDTO(DiaryWalkDTO.toDTO(diaryHashtagLink.getDiaryWalk()))
                 .build();
     }
 }

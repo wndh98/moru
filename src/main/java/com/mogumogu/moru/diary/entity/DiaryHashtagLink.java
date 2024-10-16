@@ -22,7 +22,7 @@ public class DiaryHashtagLink {
     @JoinColumn(name="DH_NUM",nullable=false)
     private DiaryHashtag diaryHashtag;
     @ManyToOne
-    @JoinColumn(name="DW_NUM",nullable=false)
+    @JoinColumn(name="DW_NUM")
     private DiaryWalk diaryWalk;
     public static DiaryHashtagLink toEntity(DiaryHashtagLinkDTO diaryHashtagLinkDTO){
         return DiaryHashtagLink.builder()

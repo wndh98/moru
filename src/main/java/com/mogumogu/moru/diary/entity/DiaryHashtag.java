@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "DIARY_HASHTAG_TB")
 @Data
@@ -18,6 +21,7 @@ public class DiaryHashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer dhNum;
     private String dhName;
+
     public static DiaryHashtag toEntity(DiaryHashtagDTO diaryHashtagDTO){
         return DiaryHashtag.builder()
                 .dhNum(diaryHashtagDTO.getDhNum())

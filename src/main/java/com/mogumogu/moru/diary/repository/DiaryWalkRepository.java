@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @Repository
 public interface DiaryWalkRepository extends JpaRepository<DiaryWalk,Integer> {
-    Page<DiaryWalk> findByDwDelAndDwPrivateAndUiId(char dwDel,char dwPrivate, String uiId, Pageable pageable);
+    Page<DiaryWalk> findByDwDelAndDwPrivateAndUserInfo(char dwDel,char dwPrivate, UserInfo userInfo, Pageable pageable);
 
     Page<DiaryWalk> findByDwDelAndDwPrivate(char dwDel,char dwPrivate, Pageable pageable);
 
-    Page<DiaryWalk> findByDwDelAndUiId(char dwDel, String uiId, Pageable pageable);
+    Page<DiaryWalk> findByDwDelAndUserInfo(char dwDel, UserInfo userInfo, Pageable pageable);
 
     Optional<DiaryWalk> findByDwNumAndDwDel(Integer dwNum,char dwDel);
     Optional<DiaryWalk> findByDwNumAndDwDelAndDwPrivate(Integer dwNum,char dwDel,char dwPrivate);

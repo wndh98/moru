@@ -6,7 +6,9 @@ import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.repository.DiaryHashtagLinkRepository;
 import com.mogumogu.moru.diary.repository.DiaryHashtagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DiaryHashtagServiceImpl implements DiaryHashtagService {
     @Autowired
     private DiaryHashtagRepository diaryHashtagRepository;

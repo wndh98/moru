@@ -53,22 +53,27 @@ public class DiaryWalkServiceImpl implements DiaryWalkService {
         // TODO : JWT 회원 확인 필요
         int result = 1;
         DiaryWalk diaryWalk = diaryWalkRepository.findById(diaryWalkDTO.getDwNum()).orElseThrow(DiaryWalkNotFoundException::new);
-        diaryWalk.setDwTitle(diaryWalk.getDwTitle());
-        diaryWalk.setDwContent(diaryWalk.getDwContent());
-        diaryWalk.setDwPrivate(diaryWalk.getDwPrivate());
-        diaryWalkRepository.save(diaryWalk);
+        diaryWalk.setDwTitle(diaryWalkDTO.getDwTitle());
+        diaryWalk.setDwContent(diaryWalkDTO.getDwContent());
+        diaryWalk.setDwPrivate(diaryWalkDTO.getDwPrivate());
+        DiaryWalk checkDiaryWalk = diaryWalkRepository.save(diaryWalk);
+        System.out.println("/******************/");
+        System.out.println(diaryWalkDTO);
+        System.out.println(checkDiaryWalk);
+        System.out.println("/******************/");
         return result;
     }
 
     @Override
     public List<DiaryWalkDTO> diaryWalkList(Pageable pageable, String uiId) {
         Page<DiaryWalk> pageList;
+        UserInfo userInfo = UserInfo.builder().uiId("test").build();
         if (uiId != null) {
             // TODO : 보인 아이디일경우 공개 비공개 상관없이 볼수있게 수정
             if (uiId == "보인아이디") {
-                pageList = diaryWalkRepository.findByDwDelAndUiId(DIARY_WALK_N, uiId, pageable);
+                pageList = diaryWalkRepository.findByDwDelAndUserInfo(DIARY_WALK_N, userInfo, pageable);
             } else {
-                pageList = diaryWalkRepository.findByDwDelAndDwPrivateAndUiId(DIARY_WALK_N, DIARY_WALK_N, uiId, pageable);
+                pageList = diaryWalkRepository.findByDwDelAndDwPrivateAndUserInfo(DIARY_WALK_N, DIARY_WALK_N, userInfo, pageable);
             }
         } else {
             pageList = diaryWalkRepository.findByDwDelAndDwPrivate(DIARY_WALK_N, DIARY_WALK_N, pageable);
