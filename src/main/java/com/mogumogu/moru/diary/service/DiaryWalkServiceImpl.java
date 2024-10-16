@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class DiaryWalkServiceImpl implements DiaryWalkService {
-    char DIARY_WALK_N = DiaryWalkEnum.N.getIsBool();
-    char DIARY_WALK_Y = DiaryWalkEnum.Y.getIsBool();
+    private final char DIARY_WALK_N = DiaryWalkEnum.N.getIsBool();
+    private final char DIARY_WALK_Y = DiaryWalkEnum.Y.getIsBool();
     @Autowired
     private DiaryWalkRepository diaryWalkRepository;
 
