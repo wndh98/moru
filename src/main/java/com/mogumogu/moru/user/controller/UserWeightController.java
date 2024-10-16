@@ -5,6 +5,7 @@ import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.service.UserWeightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,8 +19,8 @@ public class UserWeightController {
 
     @PostMapping("/userWeight")
     public int saveUserWeight(@RequestBody UserWeightDto userWeightDto, Authentication authentication) {
-        String uiId = authentication.getName();
         int result = 0;
+        String uiId = authentication.getName();
         try {
             result = userWeightService.saveUserWeight(userWeightDto, uiId);
         } catch (UserNotFoundException e) {

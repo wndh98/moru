@@ -37,6 +37,9 @@ public class UserInfoEntity {
     private String uiRole;
     @OneToMany(mappedBy = "userInfo", cascade = CascadeType.REMOVE)
     private List<UserWeightEntity> userWeightList = new ArrayList<>();
+//    @OneToMany(mappedBy = "diaryWalk", cascade = CascadeType.REMOVE)
+//    private List<Diarywalk> diaryWalkList = new ArrayList<>();
+
 
     //DTO -> Entity
     public static UserInfoEntity toEntity(UserInfoDto userInfoDto) {

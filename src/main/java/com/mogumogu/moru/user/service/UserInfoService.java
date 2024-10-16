@@ -12,5 +12,4 @@ public interface UserInfoService {
 
     int removeUser(String uiId) throws UserNotFoundException;
 
-    Map<String, String> Token(String uiId);
 }

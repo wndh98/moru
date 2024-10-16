@@ -1,10 +1,12 @@
 package com.mogumogu.moru.user.controller;
 
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
+import com.mogumogu.moru.jwt.service.BlacklistService;
 import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.service.UserInfoService;
 import com.mogumogu.moru.user.service.UserWeightService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,10 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @RestController
 public class UserInfoController {
-
+    @Autowired
     UserInfoService userInfoService;
+    @Autowired
+    BlacklistService addToBlacklist;
 
     @GetMapping("/users")
     public UserInfoDto detailsUserInfo(Authentication authentication) {
@@ -45,21 +49,17 @@ public class UserInfoController {
     }
 
     @DeleteMapping("/users")
-    public int removeUser(Authentication authentication) {
+    public int removeUser(HttpServletRequest request, Authentication authentication) {
         String uiId = authentication.getName();
         int result = 0;
         try {
             result = userInfoService.removeUser(uiId);
-
-            //token 받아오기
-            Map<String, String> tokens = userInfoService.Token(uiId);
-            String AccessToken = tokens.get("access_token");
-
-            //authorization 삭제하기
-//            userInfoService.unlink(AccessToken);
+            String token = request.getHeader("access").substring(7); // "Bearer " 제외
+            addToBlacklist.addToBlacklist(token);
 
             // 사용자 정보 db/서버에서 삭제하기
             userInfoService.removeUser(uiId);
+
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
