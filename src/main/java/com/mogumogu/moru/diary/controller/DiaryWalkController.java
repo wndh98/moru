@@ -4,6 +4,7 @@ import com.mogumogu.moru.diary.dto.DiaryWalkDTO;
 import com.mogumogu.moru.diary.dto.DiaryWalkFileDTO;
 import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.exception.DiaryWalkNotFoundException;
+import com.mogumogu.moru.diary.service.DiaryHashtagService;
 import com.mogumogu.moru.diary.service.DiaryWalkFileService;
 import com.mogumogu.moru.diary.service.DiaryWalkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,20 @@ public class DiaryWalkController {
     private DiaryWalkService diaryWalkService;
     @Autowired
     private DiaryWalkFileService diaryWalkFileService;
+    @Autowired
+    private DiaryHashtagService diaryHashtagService;
 
+    /**
+     * diary hashtag insert 포함
+     */
     @PostMapping("/diarywalk")
     public int addDiaryWalk(@RequestBody DiaryWalkDTO diaryWalkDTO) {
         int result = 0;
-        result = diaryWalkService.diaryWalkAdd(diaryWalkDTO);
+
+        Integer dwNum = diaryWalkService.diaryWalkAdd(diaryWalkDTO);
+        String[] dhNames = diaryWalkDTO.getDhNames();
+        if (dwNum == null || dhNames == null) return result;
+        result = diaryHashtagService.diaryHashtagAdd(dwNum, dhNames);
         return result;
     }
 
@@ -79,9 +89,19 @@ public class DiaryWalkController {
         }
         return list;
     }
-    @DeleteMapping("/hashtaglink")
-    public int removeHashtagLink(){
-        return 0;
+    @GetMapping("/todaydiary")
+    public int checkTodayDiaryWalk(){
+        int result = 0;
+        result = diaryWalkService.todayDiaryWalkCheck();
+        return result;
+    }
+
+    // TODO : 해쉬태그 삭제
+    @DeleteMapping("/hashtaglink/{dhlNum}")
+    public int removeHashtagLink(@PathVariable("dhlNum") Integer dhlNum) {
+        int result = 0;
+        result = diaryHashtagService.hashtagLinkRemove(dhlNum);
+        return result;
     }
 
 }

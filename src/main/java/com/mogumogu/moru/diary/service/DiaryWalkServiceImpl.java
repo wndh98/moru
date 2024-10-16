@@ -1,15 +1,21 @@
 package com.mogumogu.moru.diary.service;
 
+import com.mogumogu.moru.board.entity.UserInfo;
 import com.mogumogu.moru.diary.dto.DiaryWalkDTO;
+import com.mogumogu.moru.diary.entity.DiaryHashtag;
+import com.mogumogu.moru.diary.entity.DiaryHashtagLink;
 import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.enumClass.DiaryWalkEnum;
 import com.mogumogu.moru.diary.exception.DiaryWalkNotFoundException;
+import com.mogumogu.moru.diary.repository.DiaryHashtagLinkRepository;
+import com.mogumogu.moru.diary.repository.DiaryHashtagRepository;
 import com.mogumogu.moru.diary.repository.DiaryWalkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,14 +27,15 @@ public class DiaryWalkServiceImpl implements DiaryWalkService {
     private DiaryWalkRepository diaryWalkRepository;
 
     @Override
-    public int diaryWalkAdd(DiaryWalkDTO diaryWalkDTO) {
+    public Integer diaryWalkAdd(DiaryWalkDTO diaryWalkDTO) {
         // TODO : JWT 회원 확인 필요
-        int result = 1;
+        Integer dwNum = null;
         DiaryWalk diaryWalk = diaryWalkRepository.save(DiaryWalk.toEntity(diaryWalkDTO));
         if (diaryWalk.getDwNum() == null) {
-            result = 0;
+            return dwNum;
         }
-        return result;
+        dwNum = diaryWalk.getDwNum();
+        return dwNum;
     }
 
     @Override
@@ -79,5 +86,15 @@ public class DiaryWalkServiceImpl implements DiaryWalkService {
         if (diaryWalk.getDwPrivate() == DIARY_WALK_Y) return diaryWalkDTO;
         diaryWalkDTO = DiaryWalkDTO.toDTO(diaryWalk);
         return diaryWalkDTO;
+    }
+
+    @Override
+    public int todayDiaryWalkCheck() {
+        // TODO : JWT 수정
+        int result = 0;
+        UserInfo userInfo = UserInfo.builder().uiId("test").build();
+        boolean check = diaryWalkRepository.existsByDwDelAndUserInfoAndDwRegist(DIARY_WALK_N, userInfo, LocalDateTime.now());
+        if(check) result = 1;
+        return result;
     }
 }

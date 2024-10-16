@@ -23,6 +23,7 @@ public class DiaryWalkDTO {
     private Integer dwCount;
     private String dwContent;
     private char dwDel;
+    private String[] dhNames;
 
     public static DiaryWalkDTO toDTO(DiaryWalk diaryWalk){
         return DiaryWalkDTO.builder()
