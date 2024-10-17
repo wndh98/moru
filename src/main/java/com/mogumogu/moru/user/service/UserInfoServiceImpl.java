@@ -1,32 +1,29 @@
 package com.mogumogu.moru.user.service;
 
-import com.mogumogu.moru.jwt.dto.CustomUserDetails;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.entity.UserInfoEntity;
-import com.mogumogu.moru.jwt.jwt.JWTUtil;
 import com.mogumogu.moru.jwt.repository.RefreshRepository;
-import com.mogumogu.moru.jwt.service.BlacklistService;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.repository.UserInfoRepository;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class UserInfoServiceImpl implements UserInfoService {
 
-    @Autowired
-    private UserInfoRepository userInfoRepository;
-    @Autowired
-    private RefreshRepository refreshRepository;
+    private final UserInfoRepository userInfoRepository;
+    private final RefreshRepository refreshRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public UserInfoDto detailsUserInfo(String uiId) {
         UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow();
         UserInfoDto userInfoDto = UserInfoDto.toDto(userInfoEntity);
@@ -43,9 +40,8 @@ public class UserInfoServiceImpl implements UserInfoService {
             return result;
         }
         UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-        userInfoEntity.setUiNickname(userInfoDto.getUiPassword());
         userInfoEntity.setUiNickname(userInfoDto.getUiNickname());
-        userInfoEntity.setUiEmail(userInfoDto.getUiNickname());
+        userInfoEntity.setUiEmail(userInfoDto.getUiEmail());
         userInfoEntity.setUiAge(userInfoDto.getUiAge());
         userInfoEntity.setUiGender(userInfoDto.getUiGender());
         userInfoEntity.setUiHeight(userInfoDto.getUiHeight());
@@ -60,10 +56,25 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (refreshRepository.findById(uiId).isPresent()) { //리프레시 토큰 삭제
             refreshRepository.deleteById(uiId);
         }
-        UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
+        UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId)
+                .orElseThrow(UserNotFoundException::new);
         userInfoEntity.setUiDel('Y');
         userInfoRepository.save(userInfoEntity);
         return result;
+    }
+
+    public void updatePassword(String uiId, String currentUiPassword, String newUiPassword) throws UserNotFoundException {
+        UserInfoEntity userInfoEntity = validatePassword(uiId, currentUiPassword);
+        userInfoEntity.updatePassword(passwordEncoder.encode((newUiPassword)));
+    }
+
+    public UserInfoEntity validatePassword(String uiId, String uiPassword) throws UserNotFoundException {
+        UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId)
+                .orElseThrow(UserNotFoundException::new);
+        if (!passwordEncoder.matches(uiPassword, userInfoEntity.getUiPassword())) {
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+        }
+        return userInfoEntity;
     }
 }
 

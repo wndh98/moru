@@ -100,7 +100,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
         //urtToken 토큰 Cookie 값 0
         Cookie cookie = new Cookie("urtToken", null);
         cookie.setMaxAge(0);
-        cookie.setPath("/");
+        cookie.setPath("/main");
 
         response.addCookie(cookie);
         response.setStatus(HttpServletResponse.SC_OK);

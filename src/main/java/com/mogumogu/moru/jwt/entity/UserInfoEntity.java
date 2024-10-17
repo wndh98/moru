@@ -57,10 +57,16 @@ public class UserInfoEntity {
                 .build();
     }
 
+    public void updatePassword(String newUiPassword){
+        this.uiPassword = newUiPassword;
+    }
+
     @PrePersist
     public void prePersist() {
         if (uiRegist == null) {
             this.uiRegist = LocalDateTime.now();
         }
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.mogumogu.moru.user.controller;
 
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.service.BlacklistService;
+import com.mogumogu.moru.user.dto.UpdatePasswordReq;
 import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.service.UserInfoService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -32,7 +34,10 @@ public class UserInfoController {
     @GetMapping("/users")
     public UserInfoDto detailsUserInfo(Authentication authentication) {
         String uiId = authentication.getName();
+        System.out.println(uiId+"uiId");
         UserInfoDto userInfoDTO = userInfoService.detailsUserInfo(uiId);
+        System.out.println(userInfoDTO+"Userdto");
+
         return userInfoDTO;
     }
 
@@ -66,4 +71,12 @@ public class UserInfoController {
         return result;
     }
 
+
+    @PatchMapping("users/password")
+    public void updatePassword(@Validated @RequestBody UpdatePasswordReq updatePasswordReq,
+                               Authentication authentication) throws UserNotFoundException {
+        String uiId = authentication.getName();
+        userInfoService.updatePassword(uiId, updatePasswordReq.getCurrentUiPassword(),
+                updatePasswordReq.getNewUiPassword());
+    }
 }
