@@ -1,8 +1,6 @@
 package com.mogumogu.moru.diary.dto;
 
-import com.mogumogu.moru.diary.entity.DiaryHashtag;
 import com.mogumogu.moru.diary.entity.DiaryHashtagLink;
-import com.mogumogu.moru.diary.entity.DiaryWalk;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

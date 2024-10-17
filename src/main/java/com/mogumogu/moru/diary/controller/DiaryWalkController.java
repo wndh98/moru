@@ -2,14 +2,13 @@ package com.mogumogu.moru.diary.controller;
 
 import com.mogumogu.moru.diary.dto.DiaryWalkDTO;
 import com.mogumogu.moru.diary.dto.DiaryWalkFileDTO;
-import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.exception.DiaryWalkNotFoundException;
 import com.mogumogu.moru.diary.service.DiaryHashtagService;
+import com.mogumogu.moru.diary.service.DiaryLikeService;
 import com.mogumogu.moru.diary.service.DiaryWalkFileService;
 import com.mogumogu.moru.diary.service.DiaryWalkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +23,8 @@ public class DiaryWalkController {
     private DiaryWalkFileService diaryWalkFileService;
     @Autowired
     private DiaryHashtagService diaryHashtagService;
-
+    @Autowired
+    private DiaryLikeService diaryLikeService;
     /**
      * diary hashtag insert 포함
      */
@@ -89,14 +89,15 @@ public class DiaryWalkController {
         }
         return list;
     }
+
     @GetMapping("/todaydiary")
-    public int checkTodayDiaryWalk(){
+    public int checkTodayDiaryWalk() {
         int result = 0;
         result = diaryWalkService.todayDiaryWalkCheck();
         return result;
     }
 
-    // TODO : 해쉬태그 삭제
+
     @DeleteMapping("/hashtaglink/{dhlNum}")
     public int removeHashtagLink(@PathVariable("dhlNum") Integer dhlNum) {
         int result = 0;
@@ -104,4 +105,20 @@ public class DiaryWalkController {
         return result;
     }
 
+    @PostMapping("/diarylike/{dwNum}")
+    public int addDiaryLike(@PathVariable("dwNum") int dwNum) {
+        int result = 0;
+        result = diaryLikeService.diaryLikeAdd(dwNum);
+        return result;
+    }
+    @DeleteMapping("/diarylike/{dwNum}")
+    public int removeDiaryLike(@PathVariable("dwNum") int dwNum) {
+        int result = 0;
+        try {
+            result = diaryLikeService.diaryLikeRemove(dwNum);
+        } catch (DiaryWalkNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

@@ -1,8 +1,6 @@
 package com.mogumogu.moru.diary.dto;
 
 import com.mogumogu.moru.board.dto.UserInfoDTO;
-import com.mogumogu.moru.board.entity.UserInfo;
-import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.entity.DiaryWalkFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
