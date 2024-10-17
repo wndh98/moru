@@ -25,6 +25,7 @@ public class DiaryWalkController {
     private DiaryHashtagService diaryHashtagService;
     @Autowired
     private DiaryLikeService diaryLikeService;
+
     /**
      * diary hashtag insert 포함
      */
@@ -111,6 +112,7 @@ public class DiaryWalkController {
         result = diaryLikeService.diaryLikeAdd(dwNum);
         return result;
     }
+
     @DeleteMapping("/diarylike/{dwNum}")
     public int removeDiaryLike(@PathVariable("dwNum") int dwNum) {
         int result = 0;
