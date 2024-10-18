@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class UserEmailCodeDto {
 
-    private int uecNum;
+    private Integer uecNum;
     private String uecCode;
 }

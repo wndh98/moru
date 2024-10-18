@@ -8,6 +8,7 @@ import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.service.UserInfoService;
 import com.mogumogu.moru.user.service.UserWeightService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ public class UserInfoController {
     @GetMapping("/users")
     public UserInfoDto detailsUserInfo(Authentication authentication) {
         String uiId = authentication.getName();
-        System.out.println(uiId+"uiId");
+        System.out.println(uiId+" : uiId");
         UserInfoDto userInfoDTO = userInfoService.detailsUserInfo(uiId);
-        System.out.println(userInfoDTO+"Userdto");
+        System.out.println(userInfoDTO+" : Userdto");
 
         return userInfoDTO;
     }
@@ -72,11 +73,11 @@ public class UserInfoController {
     }
 
 
-    @PatchMapping("users/password")
-    public void updatePassword(@Validated @RequestBody UpdatePasswordReq updatePasswordReq,
+    @PatchMapping("users/{uiPassword}")
+    public void updatePassword(@Valid @RequestBody UpdatePasswordReq updatePasswordReq,
                                Authentication authentication) throws UserNotFoundException {
         String uiId = authentication.getName();
-        userInfoService.updatePassword(uiId, updatePasswordReq.getCurrentUiPassword(),
+        userInfoService.updatePassword(uiId, updatePasswordReq.getUiPassword(),
                 updatePasswordReq.getNewUiPassword());
     }
 }

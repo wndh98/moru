@@ -12,12 +12,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserWeightDto {
-    private int uwNum;
+    private Integer uwNum;
     private String uiId;
     private LocalDate uwDate;
-    private int uwWeight;
-    private int uwBodyFat;
-    private int uwMuscle;
+    private Integer uwWeight;
+    private Integer uwBodyFat;
+    private Integer uwMuscle;
 
     public static UserWeightDto toDto(UserWeightEntity userWeightEntity){
         return UserWeightDto.builder()

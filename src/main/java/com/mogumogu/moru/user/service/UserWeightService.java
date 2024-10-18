@@ -12,5 +12,5 @@ public interface UserWeightService {
 
     List<UserWeightDto> listUserWeightAndWeek(String uiId, LocalDate weekStart) throws UserNotFoundException;
 
-    List<UserWeightDto> removeUserWeight(String uiId, int uwNum) throws UserNotFoundException;
+    void removeUserWeight(String uiId, Integer uwNum) throws UserNotFoundException;
 }

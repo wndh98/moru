@@ -17,12 +17,12 @@ public class UserInfoDto {
     private String uiId;
     private String uiNickname;
     private String uiDel;
-    private int uiPoint;
+    private Integer uiPoint;
     private LocalDateTime uiRegist;
     private String uiPassword;
     private String uiEmail;
-    private int uiHeight;
-    private int uiAge;
+    private Integer uiHeight;
+    private Integer uiAge;
     private String uiGender;
     private String uiRole;
 

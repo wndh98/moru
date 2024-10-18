@@ -25,14 +25,14 @@ public class UserWeightEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UW_NUM", nullable = false)
-    private int uwNum;
+    private Integer uwNum;
     @Column(name = "UI_ID")
     private String uiId;
     @Builder.Default
     private LocalDate uwDate=LocalDate.now();
-    private int uwWeight;
-    private int uwBodyFat;
-    private int uwMuscle;
+    private Integer uwWeight;
+    private Integer uwBodyFat;
+    private Integer uwMuscle;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UI_ID",insertable = false, updatable = false)
     private UserInfoEntity userInfo;

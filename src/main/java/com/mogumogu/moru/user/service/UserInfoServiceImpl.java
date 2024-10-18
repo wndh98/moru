@@ -25,9 +25,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     @Transactional
     public UserInfoDto detailsUserInfo(String uiId) {
-        UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow();
-        UserInfoDto userInfoDto = UserInfoDto.toDto(userInfoEntity);
-        return userInfoDto;
+
+        return UserInfoDto.toDto(userInfoRepository.findByUiId(uiId).orElseThrow());
     }
 
     @Override
@@ -63,8 +62,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         return result;
     }
 
-    public void updatePassword(String uiId, String currentUiPassword, String newUiPassword) throws UserNotFoundException {
-        UserInfoEntity userInfoEntity = validatePassword(uiId, currentUiPassword);
+    public void updatePassword(String uiId, String uiPassword, String newUiPassword) throws UserNotFoundException {
+        UserInfoEntity userInfoEntity = validatePassword(uiId, uiPassword);
         userInfoEntity.updatePassword(passwordEncoder.encode((newUiPassword)));
     }
 

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +20,10 @@ public interface UserWeightRepository extends JpaRepository<UserWeightEntity, St
     @Query("SELECT a FROM UserWeightEntity a WHERE a.uiId = :uiId AND a.uwDate >= :startDate AND a.uwDate < :endDate ORDER BY a.uwDate")
     List<UserWeightDto> listUserWeightAndWeek(
             @Param("uiId") String uiId,
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate);
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 
     @Modifying
     @Query("DELETE FROM UserWeightEntity u WHERE u.userInfo.uiId = :uiId AND u.uiId = :uwNum")
-    List<UserWeightDto> removeUserWeight(@Param("uiId") String uiId, @Param("uwNum") int uwNum);
+    void removeUserWeight(@Param("uiId") String uiId, @Param("uwNum") Integer uwNum);
 }

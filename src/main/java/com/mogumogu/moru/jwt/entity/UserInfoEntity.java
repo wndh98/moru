@@ -26,7 +26,7 @@ public class UserInfoEntity {
     private String uiNickname;
     @Builder.Default
     private char uiDel = 'N';
-    private int uiPoint;
+    private Integer uiPoint;
     @Builder.Default
     private LocalDateTime uiRegist = LocalDateTime.now();
     private String uiPassword;

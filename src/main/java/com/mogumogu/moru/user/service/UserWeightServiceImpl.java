@@ -27,7 +27,7 @@ public class UserWeightServiceImpl implements UserWeightService {
 
     @Override
     @Transactional
-    public int saveUserWeight(UserWeightDto userWeightDto,String uiId) throws UserNotFoundException {
+    public int saveUserWeight(UserWeightDto userWeightDto, String uiId) throws UserNotFoundException {
         int result = 1;
         if (!Objects.equals(userWeightDto.getUiId(), uiId)) {
             result = 0;
@@ -45,15 +45,16 @@ public class UserWeightServiceImpl implements UserWeightService {
         // 주 시작일을 일요일로 설정
         LocalDate startOfWeek = weekStart.with(DayOfWeek.SUNDAY);
         // 주 종료일을 토요일로 설정
-        LocalDate endOfWeek = startOfWeek.with(DayOfWeek.SATURDAY).plusDays(1); // 다음 날로 설정 (inclusive)
+        LocalDate endOfWeek = startOfWeek.with(DayOfWeek.SATURDAY); // inclusive로 설정할 경우 다음 날을 추가하지 않음
 
-        return userWeightRepository.listUserWeightAndWeek(uiId, startOfWeek.atStartOfDay(), endOfWeek.atStartOfDay());
+        return userWeightRepository.listUserWeightAndWeek(uiId, startOfWeek, endOfWeek);
     }
 
     @Override
-    public List<UserWeightDto> removeUserWeight(String uiId, int uwNum) throws UserNotFoundException {
+    @Transactional
+    public void removeUserWeight(String uiId, Integer uwNum) throws UserNotFoundException {
         userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-        return userWeightRepository.removeUserWeight(uiId, uwNum);
+        userWeightRepository.removeUserWeight(uiId, uwNum);
     }
 }
 
