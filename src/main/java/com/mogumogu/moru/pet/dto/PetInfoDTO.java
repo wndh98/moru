@@ -17,8 +17,8 @@ public class PetInfoDTO {
     private UserInfoDTO userInfoDTO;
     private PetBreedDTO petBreedDTO;
     private String piName;
-    private Integer piAdult;
-    private Integer piNeutering;
+    private byte piAdult;
+    private byte piNeutering;
     public static PetInfoDTO toDTO(PetInfo petInfo){
         return  PetInfoDTO.builder()
                 .piNum(petInfo.getPiNum())

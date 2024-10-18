@@ -9,6 +9,8 @@ import com.mogumogu.moru.pet.service.PetWeightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class PetController {
     @Autowired
@@ -27,22 +29,27 @@ public class PetController {
     }
 
     @DeleteMapping("/pets")
-    public int removePetInfo(@RequestBody Integer[] piNum){
+    public int removePetInfo(@RequestBody List<Integer> piNums){
         int result = 0;
         try {
-            result = petInfoService.petInfoRemove(piNum);
+            result = petInfoService.petInfoRemove(piNums);
         } catch (PetNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return 0;
+        return result;
     }
 
     @PostMapping("/petsWeight/{piNum}")
-    public int saveWeight(@PathVariable("piNum")Integer piNum, PetWeightDTO petWeightDTO){
+    public int saveWeight(@PathVariable("piNum")Integer piNum, @RequestBody PetWeightDTO petWeightDTO){
         int result = 0;
-        result = petWeightService.weightSave(piNum,petWeightDTO);
+        try {
+            result = petWeightService.weightSave(piNum,petWeightDTO);
+        } catch (PetNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return result;
 
     }
+
 
 }

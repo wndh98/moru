@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +25,7 @@ public class PetWeight {
     @JoinColumn(name = "PI_NUM", nullable = false)
     private PetInfo petInfo;
     private Integer pwWeight;
-    private LocalDateTime pwDate;
+    private LocalDate pwDate;
 
     public static PetWeight toEntity(PetWeightDTO petWeightDTO) {
         return PetWeight.builder()

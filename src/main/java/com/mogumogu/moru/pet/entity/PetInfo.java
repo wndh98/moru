@@ -21,16 +21,16 @@ public class PetInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer piNum;
     @ManyToOne
-    @JoinColumn(name = "UI_ID", nullable = false)
+    @JoinColumn(name = "UI_ID", nullable = true)
     private UserInfo userInfo;
     @ManyToOne
-    @JoinColumn(name = "PB_NUM", nullable = false)
+    @JoinColumn(name = "PB_NUM", nullable = true)
     private PetBreed petBreed;
     private String piName;
     @Builder.Default
-    private Integer piAdult = 0;
+    private byte piAdult = 0;
     @Builder.Default
-    private Integer piNeutering = 0;
+    private byte piNeutering = 0;
 
     public static PetInfo toEntity(PetInfoDTO petInfoDTO) {
         return PetInfo.builder()
@@ -45,11 +45,11 @@ public class PetInfo {
 
     @PrePersist
     public void prePersist() {
-        if (piAdult == null) {
-            this.piAdult = 0;
-        }
-        if (piNeutering == null) {
-            this.piNeutering = 0;
-        }
+//        if (piAdult == 0) {
+//            this.piAdult = 0;
+//        }
+//        if (piNeutering == 0) {
+//            this.piNeutering = 0;
+//        }
     }
 }

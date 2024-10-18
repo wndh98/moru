@@ -8,6 +8,8 @@ import com.mogumogu.moru.pet.repository.PetInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PetInfoServiceImpl implements PetInfoService {
     @Autowired
@@ -24,9 +26,9 @@ public class PetInfoServiceImpl implements PetInfoService {
     }
 
     @Override
-    public int petInfoRemove(Integer[] piNum) throws PetNotFoundException {
+    public int petInfoRemove(List<Integer> piNums) throws PetNotFoundException {
 
-        for (Integer num : piNum) {
+        for (Integer num : piNums) {
             PetInfo petInfo = petInfoRepository.findById(num).orElseThrow(PetNotFoundException::new);
             // TODO : JWT 정보와 petInfo id 동일한지 확인
             petInfoRepository.deleteById(num);

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,7 +17,7 @@ public class PetWeightDTO {
     private Integer pwNum;
     private PetInfoDTO petInfoDTO;
     private Integer pwWeight;
-    private LocalDateTime pwDate;
+    private LocalDate pwDate;
     public static PetWeightDTO toDTO(PetWeight petWeight){
         return PetWeightDTO.builder()
                 .pwNum(petWeight.getPwNum())
