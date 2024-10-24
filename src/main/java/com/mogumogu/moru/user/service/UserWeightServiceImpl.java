@@ -15,6 +15,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserWeightServiceImpl implements UserWeightService {
@@ -34,7 +35,17 @@ public class UserWeightServiceImpl implements UserWeightService {
             return result;
         }
         UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-        userWeightRepository.save(UserWeightEntity.toEntity(userWeightDto));
+
+        Optional<UserWeightEntity> existingWeight = userWeightRepository.findByUwDateAndUiId(userWeightDto.getUwDate(), uiId);
+
+        if (existingWeight.isPresent()) {
+            UserWeightEntity weightToUpdate = existingWeight.get();
+            weightToUpdate.setUwWeight(userWeightDto.getUwWeight());
+            userWeightRepository.save(weightToUpdate);
+        } else {
+            userWeightRepository.save(UserWeightEntity.toEntity(userWeightDto));
+        }
+
         return result;
     }
 

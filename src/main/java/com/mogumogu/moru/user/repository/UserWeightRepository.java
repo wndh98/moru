@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserWeightRepository extends JpaRepository<UserWeightEntity, String> {
+public interface UserWeightRepository extends JpaRepository<UserWeightEntity, Integer> {
 
     @Query("SELECT a FROM UserWeightEntity a WHERE a.uiId = :uiId AND a.uwDate >= :startDate AND a.uwDate < :endDate ORDER BY a.uwDate")
     List<UserWeightDto> listUserWeightAndWeek(
@@ -26,4 +26,6 @@ public interface UserWeightRepository extends JpaRepository<UserWeightEntity, St
     @Modifying
     @Query("DELETE FROM UserWeightEntity u WHERE u.userInfo.uiId = :uiId AND u.uiId = :uwNum")
     void removeUserWeight(@Param("uiId") String uiId, @Param("uwNum") Integer uwNum);
+
+    Optional<UserWeightEntity> findByUwDateAndUiId(LocalDate uwDate, String uiId);
 }

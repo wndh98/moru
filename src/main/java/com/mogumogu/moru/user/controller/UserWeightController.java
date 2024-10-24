@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 public class UserWeightController {
 
-    @Autowired
     UserWeightService userWeightService;
 
     @PostMapping("/userWeight")
@@ -34,7 +33,6 @@ public class UserWeightController {
     @GetMapping("/userWeight")
     public List<UserWeightDto> listUserWeightAndWeek(Authentication authentication, @RequestParam LocalDate weekStart) throws UserNotFoundException {
         String uiId = authentication.getName();
-        System.out.println(weekStart);
         return userWeightService.listUserWeightAndWeek(uiId,weekStart);
     }
 

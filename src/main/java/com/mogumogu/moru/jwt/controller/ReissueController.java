@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@ResponseBody
 public class ReissueController {
 
     private final ReissueService reissueService;

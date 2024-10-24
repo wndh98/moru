@@ -77,7 +77,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //유저 정보
         String uiId = authentication.getName();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        System.out.println(authentication.getPrincipal()+"authentication.getPrincipal()");
         String uiNickname = customUserDetails.getUiNickname();
         System.out.println(uiNickname+"uiNickname");
 
@@ -86,10 +85,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         GrantedAuthority auth = iterator.next();
         String uiRole = auth.getAuthority();
 
-        //이 위에서 아이디,비밀번호 맞는지 검증
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", uiId, uiNickname, uiRole, 600000L);
+        String access = jwtUtil.createJwt("access", uiId, uiNickname, uiRole, 3600000L);
         String urtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, uiRole, 86400000L);
 
         //Refresh 토큰 저장

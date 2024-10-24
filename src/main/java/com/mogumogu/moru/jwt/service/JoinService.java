@@ -28,13 +28,13 @@ public class JoinService {
 
         if (isExist) {
 
-            return 0;
+            return -1;
         }
         UserInfoEntity data;
         data = UserInfoEntity.toEntity(UserDto);
         data.setUiPassword(bCryptPasswordEncoder.encode(uiPassword));
 
         userRepository.save(data);
-        return 0;
+        return 1;
     }
 }
