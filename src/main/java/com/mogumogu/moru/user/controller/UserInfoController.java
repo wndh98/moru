@@ -27,10 +27,9 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @RestController
 public class UserInfoController {
-    @Autowired
-    UserInfoService userInfoService;
-    @Autowired
-    BlacklistService addToBlacklist;
+
+    private final UserInfoService userInfoService;
+    private final BlacklistService addToBlacklist;
 
     @GetMapping("/users")
     public UserInfoDto detailsUserInfo(Authentication authentication) {

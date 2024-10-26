@@ -2,10 +2,8 @@ package com.mogumogu.moru.jwt.controller;
 
 import com.mogumogu.moru.jwt.service.JoinService;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,9 +16,9 @@ public class JoinController {
     }
 
     @PostMapping("/join")
-    public int JoinProcess(@RequestBody UserInfoDto UserDto) {
+    public int JoinProcess(@RequestBody UserInfoDto userInfoDto) {
         int result = 0;
-        result = joinService.joinProcess(UserDto);
+        result = joinService.joinProcess(userInfoDto);
 
         return result;
     }

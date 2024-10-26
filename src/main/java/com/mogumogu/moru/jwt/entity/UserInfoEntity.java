@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DialectOverride;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,7 +28,9 @@ public class UserInfoEntity {
     private String uiNickname;
     @Builder.Default
     private char uiDel = 'N';
-    private Integer uiPoint;
+    @Builder.Default
+    @Column(name = "UI_POINT", columnDefinition = "DEFAULT 0")
+    private Integer uiPoint=0;
     @Builder.Default
     private LocalDateTime uiRegist = LocalDateTime.now();
     private String uiPassword;

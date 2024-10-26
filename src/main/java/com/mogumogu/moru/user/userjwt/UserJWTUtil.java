@@ -31,7 +31,7 @@ public class UserJWTUtil {
 
     public String getRole(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("uiRole", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -39,12 +39,12 @@ public class UserJWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String uiId, String role,String uiNickname, Long expiredMs) {
+    public String createJwt(String uiId, String uiRole,String uiNickname, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("uiId", uiId)
                 .claim("uiNickname", uiNickname)
-                .claim("role", role)
+                .claim("uiRole", uiRole)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)

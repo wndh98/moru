@@ -63,7 +63,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String uiPassword = userDto.getUiPassword();
         String uiNickname = userDto.getUiNickname();
 
-        CustomAuthenticationToken authToken = new CustomAuthenticationToken(uiId, uiPassword,uiNickname);
+        CustomAuthenticationToken authToken = new CustomAuthenticationToken(uiId, uiPassword, uiNickname);
 
         //token에 담은 검증을 위한 AuthenticationManager로 전달
         return authenticationManager.authenticate(authToken);
@@ -78,25 +78,26 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String uiId = authentication.getName();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String uiNickname = customUserDetails.getUiNickname();
-        System.out.println(uiNickname+"uiNickname");
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String uiRole = auth.getAuthority();
 
-
         //토큰 생성
-        String access = jwtUtil.createJwt("access", uiId, uiNickname, uiRole, 3600000L);
+        String accessToken = jwtUtil.createJwt("accessToken", uiId, uiNickname, uiRole, 3600000L);
         String urtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, uiRole, 86400000L);
 
         //Refresh 토큰 저장
         addRefreshEntity(uiId, uiNickname, urtToken, 86400000L);
 
         //응답 설정
-        response.setHeader("access", access);
+        response.setHeader("accessToken", accessToken);
 
+        System.out.println(response.getHeader("accessToken"));
         response.addCookie(createCookie("urtToken", urtToken));
+        System.out.println(urtToken);
+
         response.setStatus(HttpStatus.OK.value());
 
         System.out.println("successful");
