@@ -85,16 +85,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String uiRole = auth.getAuthority();
 
         //토큰 생성
-        String accessToken = jwtUtil.createJwt("accessToken", uiId, uiNickname, uiRole, 3600000L);
+        String accessToken = jwtUtil.createJwt("accesstoken", uiId, uiNickname, uiRole, 3600000L);
         String urtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, uiRole, 86400000L);
 
         //Refresh 토큰 저장
         addRefreshEntity(uiId, uiNickname, urtToken, 86400000L);
 
         //응답 설정
-        response.setHeader("accessToken", accessToken);
+        response.setHeader("accesstoken", accessToken);
 
-        System.out.println(response.getHeader("accessToken"));
+        System.out.println(response.getHeader("accesstoken"));
         response.addCookie(createCookie("urtToken", urtToken));
         System.out.println(urtToken);
 

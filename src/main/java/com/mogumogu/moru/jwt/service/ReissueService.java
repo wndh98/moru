@@ -53,14 +53,14 @@ public class ReissueService {
         String uiNickname = jwtUtil.getUiNickname(urtToken);
         String uiRole = jwtUtil.getUiRole(urtToken);
 
-        String newAccessToken = jwtUtil.createJwt("accessToken", uiId, uiNickname, uiRole, 3600000L);
+        String newAccessToken = jwtUtil.createJwt("accesstoken", uiId, uiNickname, uiRole, 3600000L);
         String newUrtToken = jwtUtil.createJwt("urtToken", uiId, uiNickname, uiRole, 86400000L);
 
         // 데이터베이스에서 리프레시 토큰 업데이트
         updateRefreshToken(uiId, newUrtToken, uiNickname, 86400000L, urtToken);
 
         // 응답 헤더와 쿠키 설정
-        response.setHeader("accessToken", newAccessToken);
+        response.setHeader("accesstoken", newAccessToken);
         response.addCookie(createCookie("urtToken", newUrtToken));
 
         return new ResponseEntity<>(HttpStatus.OK);

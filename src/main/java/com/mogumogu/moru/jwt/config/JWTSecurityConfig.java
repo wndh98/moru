@@ -75,7 +75,7 @@ public class JWTSecurityConfig {
                 configuration.setMaxAge(3600L);
 
                 configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-                configuration.setExposedHeaders(Collections.singletonList("accessToken"));
+                configuration.setExposedHeaders(Collections.singletonList("accesstoken"));
 
                 return configuration;
             }

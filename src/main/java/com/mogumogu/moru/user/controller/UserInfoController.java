@@ -34,11 +34,9 @@ public class UserInfoController {
     @GetMapping("/users")
     public UserInfoDto detailsUserInfo(Authentication authentication) {
         String uiId = authentication.getName();
-        System.out.println(uiId+" : uiId");
-        UserInfoDto userInfoDTO = userInfoService.detailsUserInfo(uiId);
-        System.out.println(userInfoDTO+" : Userdto");
+        UserInfoDto userInfoDto = userInfoService.detailsUserInfo(uiId);
 
-        return userInfoDTO;
+        return userInfoDto;
     }
 
     @PutMapping("/users")
@@ -59,7 +57,7 @@ public class UserInfoController {
         int result = 0;
         try {
             result = userInfoService.removeUser(uiId);
-            String token = request.getHeader("access").substring(7); // "Bearer " 제외
+            String token = request.getHeader("accesstoken");
             addToBlacklist.addToBlacklist(token);
 
             // 사용자 정보 db/서버에서 삭제하기
