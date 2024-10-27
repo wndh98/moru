@@ -52,8 +52,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public int removeUser(String uiId) throws UserNotFoundException {
         int result = 1;
-        if (refreshRepository.findById(uiId).isPresent()) { //리프레시 토큰 삭제
-            refreshRepository.deleteById(uiId);
+        if (refreshRepository.existsByUiId(uiId)) { //리프레시 토큰 삭제
+            refreshRepository.deleteByUiId(uiId);
         }
         UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId)
                 .orElseThrow(UserNotFoundException::new);

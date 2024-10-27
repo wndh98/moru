@@ -7,7 +7,9 @@ import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.service.UserInfoService;
 import com.mogumogu.moru.user.service.UserWeightService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +54,7 @@ public class UserInfoController {
     }
 
     @DeleteMapping("/users")
-    public int removeUser(HttpServletRequest request, Authentication authentication) {
+    public int removeUser(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String uiId = authentication.getName();
         int result = 0;
         try {
@@ -63,14 +65,25 @@ public class UserInfoController {
             // 사용자 정보 db/서버에서 삭제하기
             userInfoService.removeUser(uiId);
 
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("urtToken")) {
+                        cookie.setMaxAge(0); // 쿠키의 만료시간을 0으로 설정하여 삭제
+                        cookie.setHttpOnly(true); // HttpOnly 설정
+                        cookie.setPath("/");
+                        response.addCookie(cookie);
+                        break;
+                    }
+                }
+            }
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
         return result;
     }
 
-
-    @PatchMapping("users/{uiPassword}")
+    @PatchMapping("/users")
     public void updatePassword(@Valid @RequestBody UpdatePasswordReq updatePasswordReq,
                                Authentication authentication) throws UserNotFoundException {
         String uiId = authentication.getName();

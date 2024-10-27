@@ -78,12 +78,10 @@ public class ReissueService {
         return null;
     }
 
-
     private void updateRefreshToken(String uiId, String newUrtToken, String uiNickname, Long expiredMs, String oldUrtToken) {
         refreshRepository.deleteByUrtToken(oldUrtToken);
         addRefreshEntity(uiId, newUrtToken, uiNickname, expiredMs);
     }
-
 
     private void addRefreshEntity(String uiId, String urtToken, String uiNickname, Long expiredMs) {
         Date expirationDate = new Date(System.currentTimeMillis() + expiredMs);
