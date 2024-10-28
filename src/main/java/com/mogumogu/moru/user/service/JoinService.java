@@ -1,6 +1,6 @@
 package com.mogumogu.moru.user.service;
 
-import com.mogumogu.moru.jwt.repository.UserRepository;
+import com.mogumogu.moru.jwt.repository.UserInfoRepository;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JoinService {
-    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public JoinService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
+    public JoinService(UserInfoRepository userInfoRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userInfoRepository = userInfoRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -24,9 +24,9 @@ public class JoinService {
         String uiPassword = userInfoDto.getUiPassword();
         String uiNickname = userInfoDto.getUiNickname();
 
-        Boolean uiIdIsExist = userRepository.existsByUiId(uiId);
-        Boolean uiNicknameIsExist = userRepository.existsByUiNickname(uiNickname);
-        Boolean uiEmailIsExist = userRepository.existsByUiEmail(uiNickname);
+        Boolean uiIdIsExist = userInfoRepository.existsByUiId(uiId);
+        Boolean uiNicknameIsExist = userInfoRepository.existsByUiNickname(uiNickname);
+        Boolean uiEmailIsExist = userInfoRepository.existsByUiEmail(uiNickname);
 
         if (uiIdIsExist) {
 
@@ -47,9 +47,7 @@ public class JoinService {
         data.setUiRole("ROLE_USER");
         data.setUiPoint(0);
 
-        userRepository.save(data);
-        System.out.println(data+" join data");
-
+        userInfoRepository.save(data);
         return 1;
     }
 }
