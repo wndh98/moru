@@ -9,4 +9,6 @@ public interface PetInfoService {
     int petInfoAdd(PetInfoDTO petInfoDTO);
 
     int petInfoRemove(List<Integer> piNums) throws PetNotFoundException;
+
+    int petInfoModify(Integer piNum, PetInfoDTO petInfoDTO)throws PetNotFoundException;
 }

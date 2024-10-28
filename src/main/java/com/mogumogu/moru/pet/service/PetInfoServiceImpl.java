@@ -5,6 +5,7 @@ import com.mogumogu.moru.pet.dto.PetInfoDTO;
 import com.mogumogu.moru.pet.entity.PetInfo;
 import com.mogumogu.moru.pet.exception.PetNotFoundException;
 import com.mogumogu.moru.pet.repository.PetInfoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class PetInfoServiceImpl implements PetInfoService {
     private PetInfoRepository petInfoRepository;
 
     @Override
+    @Transactional
     public int petInfoAdd(PetInfoDTO petInfoDTO) {
         // TODO : jwt 완성후 수정
         UserInfo userInfo = UserInfo.builder().uiId("test").build();
@@ -33,6 +35,18 @@ public class PetInfoServiceImpl implements PetInfoService {
             // TODO : JWT 정보와 petInfo id 동일한지 확인
             petInfoRepository.deleteById(num);
         }
+        return 1;
+    }
+
+    @Override
+    public int petInfoModify(Integer piNum, PetInfoDTO petInfoDTO) throws PetNotFoundException {
+
+        PetInfo petInfo = petInfoRepository.findById(piNum).orElseThrow(PetNotFoundException::new);
+        petInfo.setPetBreed(petInfo.getPetBreed());
+        petInfo.setPiName(petInfo.getPiName());
+        petInfo.setPiNeutering(petInfo.getPiNeutering());
+        petInfo.setPiAdult(petInfo.getPiAdult());
+        petInfoRepository.save(petInfo);
         return 1;
     }
 }
