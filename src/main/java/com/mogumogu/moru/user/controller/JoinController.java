@@ -1,6 +1,6 @@
-package com.mogumogu.moru.jwt.controller;
+package com.mogumogu.moru.user.controller;
 
-import com.mogumogu.moru.jwt.service.JoinService;
+import com.mogumogu.moru.user.service.JoinService;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -31,14 +31,23 @@ public class UserWeightController {
     }
 
     @GetMapping("/userWeight")
-    public List<UserWeightDto> listUserWeightAndWeek(Authentication authentication, @RequestParam LocalDate weekStart) throws UserNotFoundException {
+    public List<UserWeightDto> listUserWeightAndWeek(Authentication authentication, @RequestParam LocalDate weekStart){
         String uiId = authentication.getName();
-        return userWeightService.listUserWeightAndWeek(uiId,weekStart);
+        try {
+            return userWeightService.listUserWeightAndWeek(uiId,weekStart);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+
     @DeleteMapping("/userWeight")
-    public void removeUserWeight(Authentication authentication, @RequestParam(required = false) Integer uwNum) throws UserNotFoundException {
+    public void removeUserWeight(Authentication authentication, @RequestParam(required = false) Integer uwNum) {
         String uiId = authentication.getName();
-        userWeightService.removeUserWeight(uiId,uwNum);
+        try {
+            userWeightService.removeUserWeight(uiId,uwNum);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
