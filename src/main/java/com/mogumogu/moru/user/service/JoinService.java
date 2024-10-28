@@ -1,4 +1,4 @@
-package com.mogumogu.moru.jwt.service;
+package com.mogumogu.moru.user.service;
 
 import com.mogumogu.moru.jwt.repository.UserRepository;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
@@ -6,9 +6,6 @@ import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class JoinService {
