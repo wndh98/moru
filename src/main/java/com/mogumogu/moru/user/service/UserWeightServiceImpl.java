@@ -1,6 +1,5 @@
 package com.mogumogu.moru.user.service;
 
-import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.entity.UserWeightEntity;
@@ -11,7 +10,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -29,37 +27,37 @@ public class UserWeightServiceImpl implements UserWeightService {
     @Override
     @Transactional
     public int saveUserWeight(UserWeightDto userWeightDto, String uiId) throws UserNotFoundException {
-        int result = 1;
-        if (!Objects.equals(userWeightDto.getUiId(), uiId)) {
-            result = 0;
-            return result;
-        }
-        UserInfoEntity userInfoEntity = userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
 
+        userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
         Optional<UserWeightEntity> existingWeight = userWeightRepository.findByUwDateAndUiId(userWeightDto.getUwDate(), uiId);
-
+        userWeightDto.setUiId(uiId);
         if (existingWeight.isPresent()) {
             UserWeightEntity weightToUpdate = existingWeight.get();
             weightToUpdate.setUwWeight(userWeightDto.getUwWeight());
+            weightToUpdate.setUwMuscle(userWeightDto.getUwMuscle());
+            weightToUpdate.setUwBodyFat(userWeightDto.getUwBodyFat());
+            weightToUpdate.setUwDate(userWeightDto.getUwDate());
             userWeightRepository.save(weightToUpdate);
         } else {
             userWeightRepository.save(UserWeightEntity.toEntity(userWeightDto));
         }
-
-        return result;
+        return 1;
     }
 
     @Override
-    public List<UserWeightDto> listUserWeightAndWeek(String uiId, LocalDate weekStart) throws UserNotFoundException {
-        userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-
-        // 주 시작일을 일요일로 설정
-        LocalDate startOfWeek = weekStart.with(DayOfWeek.SUNDAY);
-        // 주 종료일을 토요일로 설정
-        LocalDate endOfWeek = startOfWeek.with(DayOfWeek.SATURDAY); // inclusive로 설정할 경우 다음 날을 추가하지 않음
-
-        return userWeightRepository.listUserWeightAndWeek(uiId, startOfWeek, endOfWeek);
+    @Transactional
+    public List<UserWeightEntity> findAllByUiIdAndUwDateBetween(String uiId, LocalDate startDate, LocalDate endDate) throws UserNotFoundException {
+        try {
+            List<UserWeightEntity> results = userWeightRepository.findAllByUiIdAndUwDateBetween(uiId, startDate, endDate);
+            if (results.isEmpty()) {
+                throw new UserNotFoundException();
+            }
+            return results;
+        } catch (Exception exception) {
+            throw new UserNotFoundException();
+        }
     }
+
 
     @Override
     @Transactional

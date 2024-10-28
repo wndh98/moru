@@ -1,30 +1,16 @@
 package com.mogumogu.moru.user.controller;
-
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.service.BlacklistService;
 import com.mogumogu.moru.user.dto.UpdatePasswordReq;
-import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
 import com.mogumogu.moru.user.service.UserInfoService;
-import com.mogumogu.moru.user.service.UserWeightService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @RestController
