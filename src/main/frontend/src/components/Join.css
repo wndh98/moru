@@ -1,0 +1,85 @@
+.Join {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7f9fc;
+    font-family: 'Arial', sans-serif;
+}
+
+.registrationFrame {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.titleText {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.infoTextFrame {
+    margin-bottom: 15px;
+}
+
+.userinfoText {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.infoOptionalText {
+    font-size: 14px;
+    color: #888;
+}
+
+.userInputFrame {
+    margin-bottom: 20px;
+}
+
+.userInputFrame p {
+    margin: 5px 0;
+}
+
+.uiAgeInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.signupButtonFrame {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signupButtonFrame button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.signupButtonFrame button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.signupButtonFrame button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
