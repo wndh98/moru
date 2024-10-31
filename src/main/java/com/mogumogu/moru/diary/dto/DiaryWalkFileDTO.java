@@ -1,6 +1,7 @@
 package com.mogumogu.moru.diary.dto;
 
 import com.mogumogu.moru.diary.entity.DiaryWalkFile;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class DiaryWalkFileDTO {
     private Integer dwfNum;
     private DiaryWalkDTO diaryWalkDTO;
-    private UserInfoDTO userInfoDTO;
+    private UserInfoDto userInfoDto;
     private String dwfOldFilename;
     private String dwfRealFilename;
     private LocalDateTime dwfRegist;
@@ -24,7 +25,7 @@ public class DiaryWalkFileDTO {
         return DiaryWalkFileDTO.builder()
                 .dwfNum(diaryWalkFile.getDwfNum())
                 .diaryWalkDTO(DiaryWalkDTO.toDTO(diaryWalkFile.getDiaryWalk()))
-                .userInfoDTO(UserInfoDTO.toDTO(diaryWalkFile.getUserInfo()))
+                .userInfoDto(UserInfoDto.toDto(diaryWalkFile.getUserInfoEntity()))
                 .dwfOldFilename(diaryWalkFile.getDwfOldFilename())
                 .dwfRealFilename(diaryWalkFile.getDwfRealFilename())
                 .dwfRegist(diaryWalkFile.getDwfRegist())

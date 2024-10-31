@@ -2,6 +2,8 @@ package com.mogumogu.moru.comment.entity;
 
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.comment.dto.CommentBaseDTO;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +27,7 @@ public class CommentBase {
     private BoardBase boardBase;
     @ManyToOne
     @JoinColumn(name = "UI_ID", nullable = false)
-    private UserInfo userInfo;
+    private UserInfoEntity userInfoEntity;
     private Integer coReply;
     @Builder.Default
     private Integer coReplyDept = 0;
@@ -38,8 +40,8 @@ public class CommentBase {
     public static CommentBase toEntity(CommentBaseDTO commentBaseDTO) {
         return CommentBase.builder()
                 .coNum(commentBaseDTO.getCoNum())
-                .boardBase(commentBaseDTO.getBoardBase())
-                .userInfo(commentBaseDTO.getUserInfo())
+                .boardBase(BoardBase.toEntity(commentBaseDTO.getBoardBaseDTO()))
+                .userInfoEntity(UserInfoEntity.toEntity(commentBaseDTO.getUserInfoDto()))
                 .coReply(commentBaseDTO.getCoReply())
                 .coReplyDept(commentBaseDTO.getCoReplyDept())
                 .coRegist(commentBaseDTO.getCoRegist())

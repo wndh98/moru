@@ -5,6 +5,8 @@ import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.enumClass.DiaryWalkEnum;
 import com.mogumogu.moru.diary.exception.DiaryWalkNotFoundException;
 import com.mogumogu.moru.diary.repository.DiaryWalkRepository;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,13 +64,13 @@ public class DiaryWalkServiceImpl implements DiaryWalkService {
     @Override
     public List<DiaryWalkDTO> diaryWalkList(Pageable pageable, String uiId) {
         Page<DiaryWalk> pageList;
-        UserInfo userInfo = UserInfo.builder().uiId("test").build();
+        UserInfoEntity userInfoEntity = UserInfoEntity.builder().uiId("test").build();
         if (uiId != null) {
             // TODO : 보인 아이디일경우 공개 비공개 상관없이 볼수있게 수정
             if (uiId == "보인아이디") {
-                pageList = diaryWalkRepository.findByDwDelAndUserInfo(DIARY_WALK_N, userInfo, pageable);
+                pageList = diaryWalkRepository.findByDwDelAndUserInfoEntity(DIARY_WALK_N, userInfoEntity, pageable);
             } else {
-                pageList = diaryWalkRepository.findByDwDelAndDwPrivateAndUserInfo(DIARY_WALK_N, DIARY_WALK_N, userInfo, pageable);
+                pageList = diaryWalkRepository.findByDwDelAndDwPrivateAndUserInfoEntity(DIARY_WALK_N, DIARY_WALK_N, userInfoEntity, pageable);
             }
         } else {
             pageList = diaryWalkRepository.findByDwDelAndDwPrivate(DIARY_WALK_N, DIARY_WALK_N, pageable);
@@ -82,7 +84,7 @@ public class DiaryWalkServiceImpl implements DiaryWalkService {
         DiaryWalk diaryWalk = null;
         diaryWalk = diaryWalkRepository.findByDwNumAndDwDel(dwNum, DIARY_WALK_N).orElseThrow(DiaryWalkNotFoundException::new);
         // TODO : 아이디 수정 필요
-        if (diaryWalk.getUserInfo().getUiId().equals("아이디")) diaryWalkDTO = DiaryWalkDTO.toDTO(diaryWalk);
+        if (diaryWalk.getUserInfoEntity().getUiId().equals("아이디")) diaryWalkDTO = DiaryWalkDTO.toDTO(diaryWalk);
         if (diaryWalk.getDwPrivate() == DIARY_WALK_Y) return diaryWalkDTO;
         diaryWalkDTO = DiaryWalkDTO.toDTO(diaryWalk);
         return diaryWalkDTO;
@@ -92,8 +94,8 @@ public class DiaryWalkServiceImpl implements DiaryWalkService {
     public int todayDiaryWalkCheck() {
         // TODO : JWT 수정
         int result = 0;
-        UserInfo userInfo = UserInfo.builder().uiId("test").build();
-        boolean check = diaryWalkRepository.existsByDwDelAndUserInfoAndDwRegist(DIARY_WALK_N, userInfo, LocalDateTime.now());
+        UserInfoEntity userInfoEntity = UserInfoEntity.builder().uiId("test").build();
+        boolean check = diaryWalkRepository.existsByDwDelAndUserInfoEntityAndDwRegist(DIARY_WALK_N, userInfoEntity, LocalDateTime.now());
         if(check) result = 1;
         return result;
     }

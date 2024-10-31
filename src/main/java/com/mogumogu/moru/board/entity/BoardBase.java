@@ -1,6 +1,8 @@
 package com.mogumogu.moru.board.entity;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +25,7 @@ public class BoardBase {
     private Integer boNum;
     @ManyToOne
     @JoinColumn(name="UI_ID",nullable=false)
-    private UserInfo userInfo;
+    private UserInfoEntity userInfoEntity;
     private String boTitle;
     private String boContent;
     private String boWriter;
@@ -41,7 +43,7 @@ public class BoardBase {
     public static BoardBase toEntity(BoardBaseDTO boardBaseDTO){
         return BoardBase.builder()
                 .boNum(boardBaseDTO.getBoNum())
-                .userInfo(UserInfo.toEntity(boardBaseDTO.getUserInfoDTO()))
+                .userInfoEntity(UserInfoEntity.toEntity(boardBaseDTO.getUserInfoDto()))
                 .boTitle(boardBaseDTO.getBoTitle())
                 .boContent(boardBaseDTO.getBoContent())
                 .boWriter(boardBaseDTO.getBoWriter())
