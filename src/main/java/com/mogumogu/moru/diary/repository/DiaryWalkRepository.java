@@ -1,7 +1,5 @@
 package com.mogumogu.moru.diary.repository;
 
-import com.mogumogu.moru.board.entity.BoardBase;
-import com.mogumogu.moru.board.entity.UserInfo;
 import com.mogumogu.moru.diary.entity.DiaryWalk;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

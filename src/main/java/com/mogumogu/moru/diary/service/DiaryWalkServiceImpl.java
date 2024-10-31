@@ -1,14 +1,9 @@
 package com.mogumogu.moru.diary.service;
 
-import com.mogumogu.moru.board.entity.UserInfo;
 import com.mogumogu.moru.diary.dto.DiaryWalkDTO;
-import com.mogumogu.moru.diary.entity.DiaryHashtag;
-import com.mogumogu.moru.diary.entity.DiaryHashtagLink;
 import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.enumClass.DiaryWalkEnum;
 import com.mogumogu.moru.diary.exception.DiaryWalkNotFoundException;
-import com.mogumogu.moru.diary.repository.DiaryHashtagLinkRepository;
-import com.mogumogu.moru.diary.repository.DiaryHashtagRepository;
 import com.mogumogu.moru.diary.repository.DiaryWalkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

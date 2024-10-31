@@ -1,7 +1,6 @@
 package com.mogumogu.moru.comment.entity;
 
 import com.mogumogu.moru.board.entity.BoardBase;
-import com.mogumogu.moru.board.entity.UserInfo;
 import com.mogumogu.moru.comment.dto.CommentBaseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

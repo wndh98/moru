@@ -1,8 +1,5 @@
 package com.mogumogu.moru.diary.entity;
 
-import com.mogumogu.moru.board.dto.UserInfoDTO;
-import com.mogumogu.moru.board.entity.UserInfo;
-import com.mogumogu.moru.diary.dto.DiaryHashtagLinkDTO;
 import com.mogumogu.moru.diary.dto.DiaryWalkDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,9 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

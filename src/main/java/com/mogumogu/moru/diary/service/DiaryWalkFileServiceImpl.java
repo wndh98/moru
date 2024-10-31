@@ -1,8 +1,5 @@
 package com.mogumogu.moru.diary.service;
 
-import com.mogumogu.moru.board.entity.BoardBase;
-import com.mogumogu.moru.board.entity.UserInfo;
-import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.diary.dto.DiaryWalkFileDTO;
 import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.entity.DiaryWalkFile;

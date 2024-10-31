@@ -1,7 +1,5 @@
 package com.mogumogu.moru.diary.entity;
 
-import com.mogumogu.moru.board.dto.UserInfoDTO;
-import com.mogumogu.moru.board.entity.UserInfo;
 import com.mogumogu.moru.diary.dto.DiaryWalkFileDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

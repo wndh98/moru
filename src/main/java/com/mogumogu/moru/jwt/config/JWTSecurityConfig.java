@@ -1,6 +1,7 @@
 package com.mogumogu.moru.jwt.config;
 
 //import com.mogumogu.moru.jwt.jwt.CustomLogoutFilter;
+import com.mogumogu.moru.jwt.jwt.CustomLogoutFilter;
 import com.mogumogu.moru.jwt.jwt.JWTFilter;
 import com.mogumogu.moru.jwt.jwt.JWTUtil;
 import com.mogumogu.moru.jwt.jwt.LoginFilter;
@@ -94,13 +95,14 @@ public class JWTSecurityConfig {
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/login", "/join").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/mainLogin").hasRole("USER")
                 .requestMatchers("/reissue").permitAll()
                 .anyRequest().authenticated()
         );
 
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class);
-//        http.addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
+        http.addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 
         //세션 설정
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -2,7 +2,6 @@ package com.mogumogu.moru.comment.dto;
 
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.comment.entity.CommentBase;
-import com.mogumogu.moru.board.entity.UserInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,6 @@
 package com.mogumogu.moru.board.service;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
-import com.mogumogu.moru.board.dto.UserInfoDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.board.repository.BoardBaseRepository;
