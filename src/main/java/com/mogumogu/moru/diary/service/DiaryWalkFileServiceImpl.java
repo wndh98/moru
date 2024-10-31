@@ -1,8 +1,5 @@
 package com.mogumogu.moru.diary.service;
 
-import com.mogumogu.moru.board.entity.BoardBase;
-import com.mogumogu.moru.board.entity.UserInfo;
-import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.diary.dto.DiaryWalkFileDTO;
 import com.mogumogu.moru.diary.entity.DiaryWalk;
 import com.mogumogu.moru.diary.entity.DiaryWalkFile;
@@ -10,6 +7,8 @@ import com.mogumogu.moru.diary.enumClass.DiaryWalkEnum;
 import com.mogumogu.moru.diary.exception.DiaryWalkNotFoundException;
 import com.mogumogu.moru.diary.repository.DiaryWalkFileRepository;
 import com.mogumogu.moru.diary.repository.DiaryWalkRepository;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,8 @@ public class DiaryWalkFileServiceImpl implements DiaryWalkFileService{
 
         List<DiaryWalkFileDTO> result= new ArrayList<>();
         DiaryWalk diaryWalk = diaryWalkRepository.findByDwNumAndDwDel(dwNum,DIARY_WALK_N).orElseThrow(DiaryWalkNotFoundException::new);
-        UserInfo userInfo = UserInfo.builder().uiId("test").build();
+        // TOdO : jwt 수정
+        UserInfoEntity userInfoEntity = UserInfoEntity.builder().uiId("test").build();
         for (MultipartFile dwfFile : dwfFiles) {
             String fileExtension;
             fileExtension = dwfFile.getOriginalFilename().substring(dwfFile.getOriginalFilename().lastIndexOf('.'));
@@ -49,7 +49,7 @@ public class DiaryWalkFileServiceImpl implements DiaryWalkFileService{
             dwfFile.transferTo(new File(uploadDirectoryPath + "/" + realFileName));
             DiaryWalkFile diaryWalkFile = DiaryWalkFile.builder()
                     .diaryWalk(diaryWalk)
-                    .userInfo(userInfo)
+                    .userInfoEntity(userInfoEntity)
                     .dwfOldFilename(dwfFile.getOriginalFilename())
                     .dwfRealFilename(realFileName)
                     .build();

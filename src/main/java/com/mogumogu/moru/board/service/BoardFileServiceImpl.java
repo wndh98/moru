@@ -1,12 +1,11 @@
 package com.mogumogu.moru.board.service;
 
-import com.mogumogu.moru.board.dto.BoardFileDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.board.entity.BoardFile;
-import com.mogumogu.moru.board.entity.UserInfo;
 import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.board.repository.BoardBaseRepository;
 import com.mogumogu.moru.board.repository.BoardFileRepository;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +35,7 @@ public class BoardFileServiceImpl implements BoardFileService {
 
         List<String> fileNames= new ArrayList<>();
         BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boNum, BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
-        UserInfo userInfo = UserInfo.builder().uiId("test").build();
+        UserInfoEntity userInfo = UserInfoEntity.builder().uiId("test").build();
         for (MultipartFile bfFile : bfFiles) {
             String fileExtension;
             fileExtension = bfFile.getOriginalFilename().substring(bfFile.getOriginalFilename().lastIndexOf('.'));
@@ -49,7 +48,7 @@ public class BoardFileServiceImpl implements BoardFileService {
             bfFile.transferTo(new File(uploadDirectoryPath + "/" + realFileName));
             BoardFile boardFile = BoardFile.builder()
                     .boardBase(boardBase)
-                    .userInfo(userInfo)
+                    .userInfoEntity(userInfo)
                     .bfOldFilename(bfFile.getOriginalFilename())
                     .bfRealFilename(realFileName)
                     .bfType(boType)

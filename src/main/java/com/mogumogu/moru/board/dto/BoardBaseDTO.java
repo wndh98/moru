@@ -1,6 +1,7 @@
 package com.mogumogu.moru.board.dto;
 
 import com.mogumogu.moru.board.entity.BoardBase;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BoardBaseDTO {
     private Integer boNum;
-    private UserInfoDTO userInfoDTO;
+    private UserInfoDto userInfoDto;
     private String boTitle;
     private String boContent;
     private String boWriter;
@@ -30,7 +31,7 @@ public class BoardBaseDTO {
     public static BoardBaseDTO toDTO(BoardBase boardBase){
         return BoardBaseDTO.builder()
                 .boNum(boardBase.getBoNum())
-                .userInfoDTO(UserInfoDTO.toDTO(boardBase.getUserInfo()))
+                .userInfoDto(UserInfoDto.toDto(boardBase.getUserInfoEntity()))
                 .boTitle(boardBase.getBoTitle())
                 .boContent(boardBase.getBoContent())
                 .boWriter(boardBase.getBoWriter())

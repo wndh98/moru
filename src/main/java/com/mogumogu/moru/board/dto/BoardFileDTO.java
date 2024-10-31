@@ -2,6 +2,7 @@ package com.mogumogu.moru.board.dto;
 
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.board.entity.BoardFile;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class BoardFileDTO {
     private Integer bfNum;
     private BoardBaseDTO boardBaseDTO;
-    private UserInfoDTO userInfoDTO;
+    private UserInfoDto userInfoDto;
     private String bfOldFilename;
     private String bfRealFilename;
     @Builder.Default
@@ -27,7 +28,7 @@ public class BoardFileDTO {
         return BoardFileDTO.builder()
                 .bfNum(boardFile.getBfNum())
                 .boardBaseDTO(BoardBaseDTO.toDTO(boardFile.getBoardBase()))
-                .userInfoDTO(UserInfoDTO.toDTO(boardFile.getUserInfo()))
+                .userInfoDto(UserInfoDto.toDto(boardFile.getUserInfoEntity()))
                 .bfOldFilename(boardFile.getBfOldFilename())
                 .bfRealFilename(boardFile.getBfRealFilename())
                 .bfRegist(boardFile.getBfRegist())
