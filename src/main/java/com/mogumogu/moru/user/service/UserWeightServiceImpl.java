@@ -1,5 +1,6 @@
 package com.mogumogu.moru.user.service;
 
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.entity.UserWeightEntity;
@@ -10,10 +11,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserWeightServiceImpl implements UserWeightService {
@@ -29,7 +31,8 @@ public class UserWeightServiceImpl implements UserWeightService {
     public int saveUserWeight(UserWeightDto userWeightDto, String uiId) throws UserNotFoundException {
 
         userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-        Optional<UserWeightEntity> existingWeight = userWeightRepository.findByUwDateAndUiId(userWeightDto.getUwDate(), uiId);
+        LocalDate today = LocalDate.now();
+        Optional<UserWeightEntity> existingWeight = userWeightRepository.findByUiIdAndUwDate(uiId,today);
         userWeightDto.setUiId(uiId);
         if (existingWeight.isPresent()) {
             UserWeightEntity weightToUpdate = existingWeight.get();
@@ -45,19 +48,23 @@ public class UserWeightServiceImpl implements UserWeightService {
     }
 
     @Override
-    @Transactional
-    public List<UserWeightEntity> findAllByUiIdAndUwDateBetween(String uiId, LocalDate startDate, LocalDate endDate) throws UserNotFoundException {
-        try {
-            List<UserWeightEntity> results = userWeightRepository.findAllByUiIdAndUwDateBetween(uiId, startDate, endDate);
-            if (results.isEmpty()) {
-                throw new UserNotFoundException();
-            }
-            return results;
-        } catch (Exception exception) {
-            throw new UserNotFoundException();
-        }
-    }
+    public List<List<UserWeightDto>> getWeeklyGroupedData(String uiId) throws UserNotFoundException {
+        List<UserWeightEntity> allData = userWeightRepository.findAllByUiIdOrderByUwDateAsc(uiId);
 
+        Map<LocalDate, List<UserWeightEntity>> groupedData = allData.stream()
+                .collect(Collectors.groupingBy(entity ->
+                        entity.getUwDate().withDayOfMonth(1).plusWeeks(
+                                entity.getUwDate().getDayOfMonth() / 7
+                        )
+                ));
+        List<List<UserWeightDto>> result = groupedData.values().stream()
+                .map(entities -> entities.stream()
+                        .map(UserWeightDto::toDto) // static 메서드 호출
+                        .collect(Collectors.toList())
+                )
+                .collect(Collectors.toList());
+        return result;
+    }
 
     @Override
     @Transactional

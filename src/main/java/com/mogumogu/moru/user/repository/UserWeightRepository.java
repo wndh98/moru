@@ -17,17 +17,11 @@ import java.util.Optional;
 @Repository
 public interface UserWeightRepository extends JpaRepository<UserWeightEntity, Integer> {
 
-//    @Query("SELECT a FROM UserWeightEntity a WHERE a.uiId = :uiId AND a.uwDate >= :startDate AND a.uwDate < :endDate ORDER BY a.uwDate")
-//    List<UserWeightDto> listUserWeightAndWeek(
-//            @Param("uiId") String uiId,
-//            @Param("startDate") LocalDate startDate,
-//            @Param("endDate") LocalDate endDate);
-
-    List<UserWeightEntity> findAllByUiIdAndUwDateBetween(String uiId,LocalDate startDate, LocalDate endDate);
+    List<UserWeightEntity> findAllByUiIdOrderByUwDateAsc(String uiId);
 
     @Modifying
     @Query("DELETE FROM UserWeightEntity u WHERE u.userInfo.uiId = :uiId AND u.uiId = :uwNum")
     void removeUserWeight(@Param("uiId") String uiId, @Param("uwNum") Integer uwNum);
 
-    Optional<UserWeightEntity> findByUwDateAndUiId(LocalDate uwDate, String uiId);
+    Optional<UserWeightEntity> findByUiIdAndUwDate(String uiId,LocalDate uwDate);
 }

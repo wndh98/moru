@@ -1,5 +1,6 @@
 package com.mogumogu.moru.user.service;
 
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import com.mogumogu.moru.user.dto.UserWeightDto;
 import com.mogumogu.moru.user.entity.UserWeightEntity;
 import com.mogumogu.moru.user.exception.UserNotFoundException;
@@ -11,9 +12,7 @@ public interface UserWeightService {
 
     int saveUserWeight(UserWeightDto userWeightDto, String uiId) throws UserNotFoundException;
 
-    List<UserWeightEntity> findAllByUiIdAndUwDateBetween(String uiId, LocalDate startDate, LocalDate endDate) throws UserNotFoundException;
+    List<List<UserWeightDto>> getWeeklyGroupedData(String uiId) throws UserNotFoundException;
 
     void removeUserWeight(String uiId, Integer uwNum) throws UserNotFoundException;
-
-
 }

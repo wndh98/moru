@@ -25,7 +25,7 @@ public class UserWeightDto {
                 .uiId(userWeightEntity.getUiId())
                 .uwDate(userWeightEntity.getUwDate())
                 .uwWeight(userWeightEntity.getUwWeight())
-                .uwBodyFat(userWeightEntity.getUwWeight())
+                .uwBodyFat(userWeightEntity.getUwBodyFat())
                 .uwMuscle(userWeightEntity.getUwMuscle())
                 .build();
     }

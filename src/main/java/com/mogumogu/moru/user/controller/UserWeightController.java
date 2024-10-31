@@ -46,12 +46,10 @@ public class UserWeightController {
     }
 
     @GetMapping("/userWeight")
-    public List<UserWeightEntity> listUserWeight(Authentication authentication,
-                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+    public List<List<UserWeightDto>> listUserWeight(Authentication authentication) {
         String uiId = authentication.getName();
         try {
-            return userWeightService.findAllByUiIdAndUwDateBetween(uiId, startDate, endDate);
+            return userWeightService.getWeeklyGroupedData(uiId);
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
