@@ -34,7 +34,7 @@ public class BoardFileServiceImpl implements BoardFileService {
     @Transactional
     public List<String> BoardFileadd(String boType, Integer boNum, MultipartFile[] bfFiles) throws BoardNotFoundException, IOException {
 
-        List<String> result= new ArrayList<>();
+        List<String> fileNames= new ArrayList<>();
         BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boNum, BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
         UserInfo userInfo = UserInfo.builder().uiId("test").build();
         for (MultipartFile bfFile : bfFiles) {
@@ -58,8 +58,8 @@ public class BoardFileServiceImpl implements BoardFileService {
             if (checkBoardFile.getBfNum() == null) {
                 throw new BoardNotFoundException();
             }
-            result.add(checkBoardFile.getBfRealFilename());
+            fileNames.add(checkBoardFile.getBfRealFilename());
         }
-        return result;
+        return fileNames;
     }
 }

@@ -122,14 +122,14 @@ public class BoardContoller {
 
     @PostMapping("/boardFile/{boType}/{boNum}")
     public List<String> addBoardFile(@PathVariable("boType") String boType, @PathVariable("boNum") Integer boNum, @RequestPart("bfFile") MultipartFile[] bfFiles) {
-        List<String> list = null;
+        List<String> fileNames = null;
         try {
-            list = boardFileService.BoardFileadd(boType, boNum, bfFiles);
+            fileNames = boardFileService.BoardFileadd(boType, boNum, bfFiles);
         } catch (BoardNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return list;
+        return fileNames;
     }
 }
