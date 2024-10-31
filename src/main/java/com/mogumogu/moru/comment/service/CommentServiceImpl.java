@@ -1,13 +1,12 @@
 package com.mogumogu.moru.comment.service;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
-import com.mogumogu.moru.board.dto.UserInfoDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
-import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.comment.dto.CommentBaseDTO;
 import com.mogumogu.moru.comment.entity.CommentBase;
 import com.mogumogu.moru.comment.exception.CommentNotFoundException;
 import com.mogumogu.moru.comment.repository.CommentBaseRepository;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public int commentAdd(CommentBaseDTO commentBaseDTO) {
         // TODO : jwt 완성시 수정
-        commentBaseDTO = CommentBaseDTO.builder().boardBaseDTO(BoardBaseDTO.builder().userInfoDTO(UserInfoDTO.builder().uiId("test").build()).boNum(1).build()).userInfoDTO(UserInfoDTO.builder().uiId("test").build()).coContent("내용").build();
+        commentBaseDTO = CommentBaseDTO.builder().boardBaseDTO(BoardBaseDTO.builder().userInfoDto(UserInfoDto.builder().uiId("test").build()).boNum(1).build()).userInfoDto(UserInfoDto.builder().uiId("test").build()).coContent("내용").build();
         int result = 0;
         CommentBase commentBase = commentBaseRepository.save(CommentBase.toEntity(commentBaseDTO));
         if (commentBase.getCoReply() == 0) {

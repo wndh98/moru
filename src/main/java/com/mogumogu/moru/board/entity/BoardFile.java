@@ -1,9 +1,8 @@
 package com.mogumogu.moru.board.entity;
 
 
-import com.mogumogu.moru.board.dto.BoardBaseDTO;
 import com.mogumogu.moru.board.dto.BoardFileDTO;
-import com.mogumogu.moru.board.dto.UserInfoDTO;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,22 +22,22 @@ public class BoardFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bfNum;
     @ManyToOne
-    @JoinColumn(name="BO_NUM",nullable=false)
+    @JoinColumn(name = "BO_NUM", nullable = false)
     private BoardBase boardBase;
     @ManyToOne
-    @JoinColumn(name="UI_ID",nullable=false)
-    private UserInfo userInfo;
+    @JoinColumn(name = "UI_ID", nullable = false)
+    private UserInfoEntity userInfoEntity;
     private String bfOldFilename;
     private String bfRealFilename;
     @Builder.Default
     private LocalDateTime bfRegist = LocalDateTime.now();
     private String bfType;
 
-    public static BoardFile toEntity(BoardFileDTO boardFileDTO){
+    public static BoardFile toEntity(BoardFileDTO boardFileDTO) {
         return BoardFile.builder()
                 .bfNum(boardFileDTO.getBfNum())
                 .boardBase(BoardBase.toEntity(boardFileDTO.getBoardBaseDTO()))
-                .userInfo(UserInfo.toEntity(boardFileDTO.getUserInfoDTO()))
+                .userInfoEntity(UserInfoEntity.toEntity(boardFileDTO.getUserInfoDto()))
                 .bfOldFilename(boardFileDTO.getBfOldFilename())
                 .bfRealFilename(boardFileDTO.getBfRealFilename())
                 .bfRegist(boardFileDTO.getBfRegist())

@@ -40,7 +40,7 @@ public class CommentBase {
     public static CommentBase toEntity(CommentBaseDTO commentBaseDTO) {
         return CommentBase.builder()
                 .coNum(commentBaseDTO.getCoNum())
-                .boardBase(commentBaseDTO.getBoardBase())
+                .boardBase(BoardBase.toEntity(commentBaseDTO.getBoardBaseDTO()))
                 .userInfoEntity(UserInfoEntity.toEntity(commentBaseDTO.getUserInfoDto()))
                 .coReply(commentBaseDTO.getCoReply())
                 .coReplyDept(commentBaseDTO.getCoReplyDept())

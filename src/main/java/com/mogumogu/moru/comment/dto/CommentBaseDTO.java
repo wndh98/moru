@@ -34,7 +34,7 @@ public class CommentBaseDTO {
     public static CommentBaseDTO toDTO(CommentBase commentBase) {
         return CommentBaseDTO.builder()
                 .coNum(commentBase.getCoNum())
-                .boardBaseDTO(commentBase.getBoardBase())
+                .boardBaseDTO(BoardBaseDTO.toDTO(commentBase.getBoardBase()))
                 .userInfoDto(UserInfoDto.toDto(commentBase.getUserInfoEntity()))
                 .coReply(commentBase.getCoReply())
                 .coReplyDept(commentBase.getCoReplyDept())
