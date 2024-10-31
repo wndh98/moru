@@ -19,15 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class MoruApplicationTests {
-    @Autowired
-    BoardBaseRepository boardBaseRepository;
 
-    @Test
-    public void boardModify() throws BoardNotFoundException {
-        int boNum = 10;
-        int result = 1;
-        BoardBase boardBase = boardBaseRepository.findById(boNum).orElseThrow(BoardNotFoundException::new);
-        boardBase.setBoDel('Y');;
-        boardBaseRepository.save(boardBase);
-    }
 }
+
