@@ -1,5 +1,6 @@
 package com.mogumogu.moru.comment.dto;
 
+import com.mogumogu.moru.board.dto.BoardBaseDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.comment.entity.CommentBase;
 import com.mogumogu.moru.jwt.dto.UserInfoDto;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentBaseDTO {
     private Integer coNum;
-    private BoardBase boardBase;
+    private BoardBaseDTO boardBaseDTO;
     private UserInfoDto userInfoDto;
     private Integer coReply;
     @Builder.Default
@@ -33,7 +34,7 @@ public class CommentBaseDTO {
     public static CommentBaseDTO toDTO(CommentBase commentBase) {
         return CommentBaseDTO.builder()
                 .coNum(commentBase.getCoNum())
-                .boardBase(commentBase.getBoardBase())
+                .boardBaseDTO(commentBase.getBoardBase())
                 .userInfoDto(UserInfoDto.toDto(commentBase.getUserInfoEntity()))
                 .coReply(commentBase.getCoReply())
                 .coReplyDept(commentBase.getCoReplyDept())
