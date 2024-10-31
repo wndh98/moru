@@ -39,8 +39,8 @@ public class CommentBase {
     public static CommentBase toEntity(CommentBaseDTO commentBaseDTO) {
         return CommentBase.builder()
                 .coNum(commentBaseDTO.getCoNum())
-                .boardBase(commentBaseDTO.getBoardBase())
-                .userInfo(commentBaseDTO.getUserInfo())
+                .boardBase(BoardBase.toEntity(commentBaseDTO.getBoardBaseDTO()))
+                .userInfo(UserInfo.toEntity(commentBaseDTO.getUserInfoDTO()))
                 .coReply(commentBaseDTO.getCoReply())
                 .coReplyDept(commentBaseDTO.getCoReplyDept())
                 .coRegist(commentBaseDTO.getCoRegist())
