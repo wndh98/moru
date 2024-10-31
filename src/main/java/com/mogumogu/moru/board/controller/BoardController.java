@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 //@Slf4j
-public class BoardContoller {
+public class BoardController {
     @Autowired
     BoardService boardService;
     @Autowired
@@ -67,7 +67,7 @@ public class BoardContoller {
      *
      * @param boNum 게시판 번호
      * @return BoardBaseDTO
-     * @throws BoardNotFoundException
+     * @exception  BoardNotFoundException
      * @author 김주오
      */
     @GetMapping("/board/{boNum}")

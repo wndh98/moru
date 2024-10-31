@@ -22,23 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class MoruApplicationTests {
-    @Autowired
-    BoardBaseRepository boardBaseRepository;
-    @Autowired
-    CommentBaseRepository commentBaseRepository;
 
-    @Test
-    public void testcode()  {
-        // TODO : jwt 완성시 수정
-        CommentBaseDTO commentBaseDTO = CommentBaseDTO.builder().boardBaseDTO(BoardBaseDTO.builder().userInfoDTO(UserInfoDTO.builder().uiId("test").build()).boNum(1).build()).userInfoDTO(UserInfoDTO.builder().uiId("test").build()).coContent("commentcontent").build();
-        int result = 0;
-        CommentBase commentBase = commentBaseRepository.save(CommentBase.toEntity(commentBaseDTO));
-        if (commentBase.getCoReply() == 0) {
-            commentBase.setCoReply(commentBase.getCoNum());
-        }
-        if (commentBase.getCoNum() != null) {
-            result = 1;
-        }
-        System.out.println(result);
-    }
 }
+
