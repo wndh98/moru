@@ -1,18 +1,15 @@
 package com.mogumogu.moru.diary.entity;
 
-import com.mogumogu.moru.board.dto.UserInfoDTO;
-import com.mogumogu.moru.board.entity.UserInfo;
-import com.mogumogu.moru.diary.dto.DiaryHashtagLinkDTO;
 import com.mogumogu.moru.diary.dto.DiaryWalkDTO;
+import com.mogumogu.moru.jwt.entity.UserInfoEntity;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +26,7 @@ public class DiaryWalk {
     private Integer dwNum;
     @ManyToOne
     @JoinColumn(name="UI_ID",nullable=false)
-    private UserInfo userInfo;
+    private UserInfoEntity userInfoEntity;
     private String dwTitle;
     @Builder.Default
     private LocalDateTime dwRegist= LocalDateTime.now();
@@ -46,7 +43,7 @@ public class DiaryWalk {
     public static DiaryWalk toEntity(DiaryWalkDTO diaryWalkDTO){
         return DiaryWalk.builder()
                 .dwNum(diaryWalkDTO.getDwNum())
-                .userInfo(UserInfo.toEntity(diaryWalkDTO.getUserInfoDTO()))
+                .userInfoEntity(UserInfoEntity.toEntity(diaryWalkDTO.getUserInfoDto()))
                 .dwTitle(diaryWalkDTO.getDwTitle())
                 .dwRegist(diaryWalkDTO.getDwRegist())
                 .dwPrivate(diaryWalkDTO.getDwPrivate())

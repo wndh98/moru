@@ -1,14 +1,18 @@
 package com.mogumogu.moru.board.service;
 
 import com.mogumogu.moru.board.dto.BoardBaseDTO;
-import com.mogumogu.moru.board.dto.UserInfoDTO;
 import com.mogumogu.moru.board.entity.BoardBase;
 import com.mogumogu.moru.board.exception.BoardNotFoundException;
 import com.mogumogu.moru.board.repository.BoardBaseRepository;
+import com.mogumogu.moru.jwt.dto.CustomUserDetails;
+import com.mogumogu.moru.jwt.dto.UserInfoDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +30,17 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public int boardAdd(BoardBaseDTO boardBaseDTO) {
         // TODO : jwt 완성시 수정
-        boardBaseDTO = BoardBaseDTO.builder().userInfoDTO(UserInfoDTO.builder().uiId("test").build()).boTitle("title").boContent("content").boType("free").boWriter("writer").build();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        System.out.println("/******************************************/");
+        System.out.println(customUserDetails.getUsername());
+        System.out.println("/******************************************/");
+
+        boardBaseDTO = BoardBaseDTO.builder().userInfoDto(UserInfoDto.builder().uiId("test").build()).boTitle("title").boContent("content").boType("free").boWriter("writer").build();
         int result = 0;
+
         BoardBase boardBase = boardBaseRepository.save(BoardBase.toEntity(boardBaseDTO));
         if (boardBase.getBoReply() == 0) {
             boardBase.setBoReply(boardBase.getBoNum());
@@ -59,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardBaseDTO boardDetails(int boNum) throws BoardNotFoundException {
-        return BoardBaseDTO.toDTO(boardBaseRepository.findByBoNumAndBoDel(boNum,BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new));
+        return BoardBaseDTO.toDTO(boardBaseRepository.findByBoNumAndBoDel(boNum, BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new));
     }
 
     @Override
@@ -71,7 +84,7 @@ public class BoardServiceImpl implements BoardService {
             result = 0;
             return result;
         }
-        BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boardBaseDTO.getBoNum(),BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
+        BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boardBaseDTO.getBoNum(), BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
         boardBase.setBoContent(boardBaseDTO.getBoContent());
         boardBase.setBoTitle(boardBaseDTO.getBoTitle());
         boardBaseRepository.save(boardBase);
@@ -82,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
     public int boardRemove(int boNum) throws BoardNotFoundException {
         // TODO : 본인 체크
         int result = 1;
-        BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boNum,BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
+        BoardBase boardBase = boardBaseRepository.findByBoNumAndBoDel(boNum, BOARD_NOT_DEL).orElseThrow(BoardNotFoundException::new);
         boardBase.setBoDel('Y');
         boardBaseRepository.save(boardBase);
         return result;
