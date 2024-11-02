@@ -25,22 +25,19 @@ public class UserWeightServiceImpl implements UserWeightService {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-
     @Override
     @Transactional
     public int saveUserWeight(UserWeightDto userWeightDto, String uiId) throws UserNotFoundException {
 
-        userInfoRepository.findByUiId(uiId).orElseThrow(UserNotFoundException::new);
-        LocalDate today = LocalDate.now();
-        Optional<UserWeightEntity> existingWeight = userWeightRepository.findByUiIdAndUwDate(uiId,today);
+        Optional<UserWeightEntity> existingWeight = userWeightRepository.findByUiIdAndUwDate(uiId,userWeightDto.getUwDate());
         userWeightDto.setUiId(uiId);
+        System.out.println(existingWeight);
         if (existingWeight.isPresent()) {
             UserWeightEntity weightToUpdate = existingWeight.get();
             weightToUpdate.setUwWeight(userWeightDto.getUwWeight());
             weightToUpdate.setUwMuscle(userWeightDto.getUwMuscle());
             weightToUpdate.setUwBodyFat(userWeightDto.getUwBodyFat());
             weightToUpdate.setUwDate(userWeightDto.getUwDate());
-            userWeightRepository.save(weightToUpdate);
         } else {
             userWeightRepository.save(UserWeightEntity.toEntity(userWeightDto));
         }

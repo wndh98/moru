@@ -1,4 +1,5 @@
 package com.mogumogu.moru.user.dto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mogumogu.moru.user.entity.UserWeightEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 public class UserWeightDto {
     private Integer uwNum;
     private String uiId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate uwDate;
     private Integer uwWeight;
     private Integer uwBodyFat;
