@@ -153,7 +153,7 @@ public class JWTSecurityConfig {
         //경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/").permitAll()
-                .requestMatchers("my").hasRole("USER")
+                .requestMatchers("/my").hasRole("USER")
                 .anyRequest().authenticated());
 
         //세션 설정 : STATELESS
