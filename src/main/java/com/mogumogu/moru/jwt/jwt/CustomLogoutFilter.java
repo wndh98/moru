@@ -34,7 +34,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
 
         //path and method verify
         String requestUri = request.getRequestURI();
-        if (!requestUri.matches("\\/logout")) {
+        if (!requestUri.matches("/logout")) {
 
             filterChain.doFilter(request, response);
             return;
@@ -50,14 +50,15 @@ public class CustomLogoutFilter extends GenericFilterBean {
         //get urtToken
         String urtToken = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-
-            if (cookie.getName().equals("urtToken")) {
-
-                urtToken = cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("urtToken")) {
+                    urtToken = cookie.getValue();
+                }
             }
+        } else {
+            System.out.println("No cookies found in the request.");
         }
-
         //urtToken null check
         if (urtToken == null) {
 
@@ -97,11 +98,10 @@ public class CustomLogoutFilter extends GenericFilterBean {
         //urtToken 토큰 DB에서 제거
         refreshRepository.deleteByUrtToken(urtToken);
 
-
         //urtToken 토큰 Cookie 값 0
         Cookie cookie = new Cookie("urtToken", null);
         cookie.setMaxAge(0);
-        cookie.setPath("/main");
+        cookie.setPath("/");
 
         response.addCookie(cookie);
         response.setStatus(HttpServletResponse.SC_OK);
