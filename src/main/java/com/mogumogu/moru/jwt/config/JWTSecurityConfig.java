@@ -93,7 +93,7 @@ public class JWTSecurityConfig {
 
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/login", "/join","/logo192.png","/logo512.png").permitAll()
+                .requestMatchers("/login", "/join").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/userWeight","/users","/logout").hasRole("USER")
                 .requestMatchers("/reissue").permitAll()
